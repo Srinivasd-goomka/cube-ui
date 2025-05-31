@@ -1,0 +1,30 @@
+.nav-tooltip {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  white-space: nowrap;
+  background: #fff;
+  left: calc(100% + 15px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  transition: 0s;
+}
+
+.nav-button:hover .nav-tooltip {
+  opacity: 1;
+  animation: moveDown 0.4s ease-out;
+}
+
+.popover-transform {
+  animation: moveDown 0.4s ease-out;
+}
+
+@keyframes moveDown {
+  from {
+    transform: translateY(-10%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}

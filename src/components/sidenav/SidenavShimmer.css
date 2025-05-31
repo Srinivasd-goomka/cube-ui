@@ -1,0 +1,25 @@
+.sn-line {
+  width: 90%;
+}
+
+.sn-stroke {
+  height: 35px;
+  background: #777;
+  border-radius: 6px;
+}
+
+.sn-animate {
+  animation: shimmer 3s;
+  animation-iteration-count: infinite;
+  background: linear-gradient(to right, #e6e6e6 5%, #cccccc 25%, #e6e6e6 35%);
+  background-size: 1000px 100%;
+  margin: 0.5rem;
+}
+@keyframes shimmer {
+  from {
+    background-position: -1000px 0;
+  }
+  to {
+    background-position: 1000px 0;
+  }
+}

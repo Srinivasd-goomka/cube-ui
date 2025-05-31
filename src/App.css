@@ -1,0 +1,28 @@
+/* HEADER LOGO*/
+.cube-logo-colors-line {
+  height: 8px;
+  width: 100%;
+  background: linear-gradient(#f79221, #f79221) 0% 0 / 25% 100%,
+    linear-gradient(#65676b, #65676b) 30% 0 / 25% 100%,
+    linear-gradient(#327bbf, #327bbf) 50% 0 / 25% 100%,
+    linear-gradient(#4f2b7e, #4f2b7e) 70% 0 / 25% 100%,
+    linear-gradient(#f26724, #f26724) 80% 0 / 8% 100%,
+    linear-gradient(#8ec13f, #8ec13f) 86% 0 / 8% 100%,
+    linear-gradient(#ed1c24, #ed1c24) 92% 0 / 8% 100%,
+    linear-gradient(#a3d9e8, #a3d9e8) 96% 0 / 8% 100%,
+    linear-gradient(#d1d3d4, #d1d3d4) right 0 / 8% 100%;
+  background-repeat: no-repeat;
+}
+
+
+/* main */
+#root {
+  width: 100%;
+}
+.cube-container__main {
+  transition: margin-left 0.3s ease;
+  padding-top: 4rem;
+}
+.cube-container__main .cube-container__content {
+  transition: margin-left 0.3s ease;
+}
