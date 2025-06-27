@@ -2,7 +2,6 @@ import { handleError } from "./error-handler";
 
 export async function handleRequest<T>(request: Promise<T>): Promise<T> {
   try {
-    console.log(request)
     return await request;
   } catch (error) {
     handleError(error);

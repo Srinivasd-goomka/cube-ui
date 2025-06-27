@@ -9,6 +9,7 @@ export interface UserContextProps {
   isAuthenticated: boolean;
   isSidenav: boolean;
   toggleSidenav: () => void;
+  isLoading: boolean;
 }
 
 export const UserContext = createContext<UserContextProps>(

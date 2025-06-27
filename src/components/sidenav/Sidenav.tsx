@@ -13,8 +13,8 @@ import {
 
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hooks/use-authContext";
-import SidenavShimmer from "./SideNavShimmer";
 import SidenavItem from "./SidenavItem";
+import SidenavShimmer from "./SidenavShimmer";
 
 interface SidebarProps {
   expandTrigger?: "click" | "hover";
@@ -97,8 +97,7 @@ const Sidenav = ({
   return (
     <div
       className={`
-        h-screen bg-white border-r border-gray-200 transition-all duration-300 fixed
-        ${isSidenav ? "w-16" : "w-64"}
+        h-screen bg-white border-r border-gray-200 transition-all duration-300 fixed z-20 ${isSidenav ? "w-16" : "w-64"}
       `}
     >
       <div className="flex flex-col h-full">

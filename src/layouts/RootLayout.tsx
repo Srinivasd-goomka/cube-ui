@@ -1,8 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Footer from "../pages/footer";
 import Header from "../pages/header";
-
-import Sidenav from "../components/sidenav/SideNav";
+import Sidenav from "../components/sidenav/Sidenav";
 
 const RootLayout: React.FC = () => {
   return (

@@ -1,0 +1,80 @@
+import { UseFormReturnType } from "@mantine/form";
+import { InputHTMLAttributes, SelectHTMLAttributes } from "react";
+
+export interface FieldOption {
+  label: string;
+  value: string | number;
+}
+
+export interface FieldConfig {
+  type: string;
+  label: string;
+  name: string;
+  required?: boolean;
+  validation?: { required?: string };
+  options?: FieldOption[];
+  width?: number;
+  placeholder?: string;
+  prefix?: string;
+  searchable?: boolean;
+  clearable?: boolean;
+  maxtagcount?: number;
+  height?: number;
+  showCondition?: (formValues: Record<string, unknown>) => boolean;
+}
+
+export interface DynamicFormProps {
+  fields: FieldConfig[];
+  onSubmit: (values: Record<string, unknown>) => void;
+  defaultMapTriggerField?: string;
+  defaultBaseValues?: Record<string, unknown>;
+  defaultOverrides?: Record<string, Record<string, unknown>>;
+}
+
+export type FormType = UseFormReturnType<Record<string, unknown>>;
+
+export interface FormFieldProps<T = unknown> {
+  label?: string;
+  name: keyof T & string;
+  form: UseFormReturnType<T>;
+  withAsterisk?: boolean;
+  prefix?: string;
+  placeholder?: string;
+
+  searchable?: boolean;
+  clearable?: boolean;
+  maxtagcount?: number;
+}
+
+export type TextInputProps<T = unknown> = FormFieldProps<T> &
+  Omit<InputHTMLAttributes<HTMLInputElement>, "name">;
+
+export type DateInputProps<T = unknown> = {
+  label?: string;
+  name: keyof T;
+  form: UseFormReturnType<T>;
+  withAsterisk?: boolean;
+  required?: boolean;
+};
+
+export type SelectProps = Omit<
+  SelectHTMLAttributes<HTMLSelectElement>,
+  "value" | "onChange"
+> & {
+  label?: string;
+  name: string;
+  form: UseFormReturnType<Record<string, unknown>>;
+  withAsterisk?: boolean;
+  options: FieldOption[];
+  tickPosition?: "left" | "right" | "only-tick";
+  searchable?: boolean;
+  placeholder?: string;
+  clearable?: boolean;
+  maxWidth?: string;
+  maxtagcount?: number;
+};
+
+export interface RenderFieldProps {
+  field: FieldConfig;
+  form: UseFormReturnType<Record<string, unknown>>;
+}

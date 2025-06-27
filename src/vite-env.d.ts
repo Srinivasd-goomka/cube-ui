@@ -12,6 +12,11 @@ declare module "*.css" {
   export default value;
 }
 
+declare module "*.scss" {
+  const value: string;
+  export default value;
+}
+
 declare module "*.svg" {
   const content: string;
   export default content;

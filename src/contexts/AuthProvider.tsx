@@ -18,10 +18,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
     return localStorage.getItem("authToken") !== "true";
+    // return !!localStorage.getItem("authToken");
   });
- const [isSidenav, setIsSidenav] = useState<boolean>(false);
+  const [isSidenav, setIsSidenav] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   // Login
   const handleLogin = async (payload: Login) => {
+    setIsLoading(true);
     try {
       const { code, data } = await authService.login(payload);
       if (code !== 200) {
@@ -34,16 +38,19 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         const userResponse = await authService.getUser();
         if (userResponse.code === 200) {
           setUser(userResponse.data);
+          setIsLoading(false);
           setIsAuthenticated(true);
           navigate("/");
           localStorage.setItem("user", JSON.stringify(data));
-          toast.success("Login successful!");
+          toast.success("Login successful!");         
         } else {
+          setIsLoading(false);
           throw new Error("Failed to fetch user data");
         }
       } catch (userError) {
         // Clean up auth token if user fetch fails
         localStorage.removeItem("authToken");
+        setIsLoading(false);
         const errorMessage =
           userError instanceof Error
             ? userError.message
@@ -53,7 +60,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error ? error.message : "An unexpected error occurred";
-
+      setIsLoading(false);
       toast.error("Authentication failed. Please try again");
       console.error("An unexpected error occurred:", errorMessage);
     }
@@ -70,8 +77,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const toggleSidenav = () => {
-    setIsSidenav(prev => !prev);
-  }
+    setIsSidenav((prev) => !prev);
+  };
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -91,7 +98,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         login: handleLogin,
         logout: handleLogout,
         isSidenav,
-        toggleSidenav
+        toggleSidenav,
+        isLoading,
       }}
     >
       {children}

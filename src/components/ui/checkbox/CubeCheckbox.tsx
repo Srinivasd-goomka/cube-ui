@@ -1,27 +1,23 @@
-import type { InputHTMLAttributes } from 'react';
-import type { UseFormReturnType } from '@mantine/form';
+import { TextInputProps } from "../../../types";
 
-type CheckboxProps = InputHTMLAttributes<HTMLInputElement> & {
-  label?: string;
-  name: string;
-  form: UseFormReturnType<Record<string, unknown>>;
-  withAsterisk?: boolean;
-};
-
-export function CustomCheckbox({
+export function CubeCheckbox({
   label,
   name,
   form,
   withAsterisk,
+  clearable,
   ...rest
-}: CheckboxProps) {
-  const { checked, onChange, onBlur } = form.getInputProps(name, { type: 'checkbox' });
+}: TextInputProps) {
+  const { checked, onChange, onBlur } = form.getInputProps(name, {
+    type: "checkbox",
+  });
   const error = form.errors[name];
   const isInvalid = !!error;
 
   return (
     <div className="mb-4">
       <label className="flex items-center space-x-2 cursor-pointer">
+        {clearable && <></>}
         <input
           id={name}
           name={name}
@@ -30,7 +26,7 @@ export function CustomCheckbox({
           onChange={onChange}
           onBlur={onBlur}
           className={`w-4 h-4 border rounded text-blue-600 focus:ring-1 focus:ring-blue-500 ${
-            isInvalid ? 'border-red-500' : 'border-gray-300'
+            isInvalid ? "border-red-500" : "border-gray-300"
           }`}
           {...rest}
         />
@@ -41,9 +37,7 @@ export function CustomCheckbox({
         )}
       </label>
 
-      {isInvalid && (
-        <p className="text-red-500 text-xs mt-1">{error}</p>
-      )}
+      {isInvalid && <p className="text-red-500 text-xs mt-1">{error}</p>}
     </div>
   );
 }

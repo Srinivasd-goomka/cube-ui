@@ -24,6 +24,17 @@ export default defineConfig({
   css: {
     postcss: "./postcss.config.js",
   },
+  // server: {
+  //   host: true,
+  //   port: 8000, 
+  //   proxy: {
+  //     '/api': {
+  //       target: 'https://test001.goomka.com/Goomka_Cube_API/public/api',
+  //       changeOrigin: true,
+  //       secure: false,
+  //     },
+  //   },
+  // },
   define: {
     __COMMIT_HASH__: JSON.stringify(git.hash),
     __COMMIT_DATE__: JSON.stringify(git.date),

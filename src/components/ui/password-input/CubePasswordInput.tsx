@@ -9,7 +9,7 @@ type PasswordInputProps = InputHTMLAttributes<HTMLInputElement> & {
   withAsterisk?: boolean;
 };
 
-export function PasswordInput({
+export function CubePasswordInput({
   label,
   name,
   form,

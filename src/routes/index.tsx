@@ -4,17 +4,20 @@ import { lazy } from "react";
 const RootLayout = lazy(() => import("../layouts/RootLayout"));
 
 import UserLogin from "../pages/auth/login";
-import Home from "../pages/home";
+import { HomePage } from "../pages/home";
+
 
 export const nonAuthRoutes: RouteObject[] = [
   {
     path: "/",
+    // path: "/login",
     element: <UserLogin />,
     index: true,
   },
   {
     path: "*",
     element: <UserLogin />,
+    // element: <Navigate to="/login" />,
   },
 ];
 
@@ -25,7 +28,17 @@ export const authRoutes: RouteObject[] = [
     children: [
       {
         index: true,
-        element: <Home />,
+        element: <HomePage />,
+      },
+    ],
+  },
+  {
+    path: "/home",
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: <HomePage />,
       },
     ],
   },

@@ -89,7 +89,7 @@ const SidenavItem = ({
          nav-button w-full flex items-center gap-2 px-3 py-2 rounded-lg transition-colors
           ${
             isActive
-              ? "bg-indigo-100 text-indigo-600"
+              ? "bg-indigo-100 text-orange-600"
               : "text-gray-600 hover:bg-gray-100"
           }
         `}

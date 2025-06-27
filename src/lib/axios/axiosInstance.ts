@@ -3,8 +3,11 @@ import axios, { AxiosInstance, AxiosError, AxiosResponse } from "axios";
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   timeout: 10000,
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
+    "access-control-allow-origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
   },
 });
 
@@ -16,7 +19,7 @@ axiosInstance.interceptors.request.use(
         ? localStorage.getItem("authToken")
         : null;
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers.Authorization = `BEARER ${token}`;
     }
     return config;
   },

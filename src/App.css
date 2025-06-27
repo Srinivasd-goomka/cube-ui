@@ -25,4 +25,19 @@
 }
 .cube-container__main .cube-container__content {
   transition: margin-left 0.3s ease;
+  margin-bottom: 4rem;
 }
+
+/* Jodit Editor */
+.jodit-ui-button_upload {
+  display: none !important;
+}
+/* .jodit-wysiwyg {
+  min-height: 100px !important;
+  max-height: 200px !important;
+}
+.jodit-workplace {
+  min-height: 100px !important;
+  max-height: 200px !important;
+} */
+/* Jodit Editor */

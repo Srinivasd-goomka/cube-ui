@@ -1,19 +1,16 @@
 import { isNotEmpty, useForm } from "@mantine/form";
-import { useEffect, useState } from "react";
-
+import { useEffect } from "react";
 import cubelogo from "../../../assets/logos/cube-full-logo-large.png";
-import { TextInput } from "../../../components/ui/text-input/TextInput";
-import { PasswordInput } from "../../../components/ui/password-input/PasswordInput";
+import { CubeTextInput } from "../../../components/ui/text-input/CubeTextInput";
+import { CubePasswordInput } from "../../../components/ui/password-input/CubePasswordInput";
 import { Link } from "react-router-dom";
-import { cn } from "../../../lib/helpers";
-import { ButtonLoader } from "../../../components/ui/button-loader/ButtonLoader";
 import Footer from "../../footer";
 import { useAuthContext } from "../../../hooks/use-authContext";
 import { Login } from "../../../types";
+import Button from "../../../components/ui/button/Button";
 
 function UserLogin() {
-  const { login, isAuthenticated } = useAuthContext();
-  const [loading, setLoading] = useState(false);
+  const { login, isLoading } = useAuthContext();
 
   const form = useForm<Login>({
     initialValues: {
@@ -42,19 +39,12 @@ function UserLogin() {
   });
 
   const handleSubmit = async (values: typeof form.values) => {
-    setLoading(true);
     await login(values);
   };
 
   useEffect(() => {
     document.title = "Login | Cube";
   }, []);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      setLoading(false);
-    }
-  }, [isAuthenticated]);
 
   return (
     <div className="min-h-screen bg-[#F7F7FA]">
@@ -74,7 +64,7 @@ function UserLogin() {
 
             <form onSubmit={form.onSubmit(handleSubmit)} className="space-y-6">
               <div>
-                <TextInput
+                <CubeTextInput
                   label="Email"
                   name="email"
                   form={form}
@@ -83,7 +73,7 @@ function UserLogin() {
               </div>
 
               <div>
-                <PasswordInput
+                <CubePasswordInput
                   label="Password"
                   name="password"
                   form={form}
@@ -100,16 +90,24 @@ function UserLogin() {
                 </Link>
               </div>
 
-              <button
+              {/* <button
                 type="submit"
-                disabled={loading}
+                disabled={isLoading}
                 className={cn(
                   "w-full h-10 bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300 flex items-center justify-center",
-                  loading ? "opacity-50 cursor-not-allowed" : ""
+                  isLoading ? "opacity-50 cursor-not-allowed" : ""
                 )}
               >
-                {loading ? <ButtonLoader /> : <span>Sign In</span>}
-              </button>
+                {isLoading ? <ButtonLoader /> : <span>Sign In</span>}
+              </button> */}
+              <Button
+                type="submit"
+                variant="primary"
+                label="Sign In"
+                isLoading={isLoading}
+                disabled={isLoading}
+                className="w-full h-10"
+              />
             </form>
           </div>
         </div>
