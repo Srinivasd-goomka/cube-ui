@@ -33,26 +33,25 @@ export interface DynamicFormProps {
 
 export type FormType = UseFormReturnType<Record<string, unknown>>;
 
-export interface FormFieldProps<T = unknown> {
+export interface FormFieldProps<T> {
   label?: string;
   name: keyof T & string;
-  form: UseFormReturnType<T>;
+  form: UseFormReturnType<Record<string, unknown>>;
   withAsterisk?: boolean;
   prefix?: string;
   placeholder?: string;
-
   searchable?: boolean;
   clearable?: boolean;
   maxtagcount?: number;
 }
 
-export type TextInputProps<T = unknown> = FormFieldProps<T> &
+export type TextInputProps<T> = FormFieldProps<T> &
   Omit<InputHTMLAttributes<HTMLInputElement>, "name">;
 
 export type DateInputProps<T = unknown> = {
   label?: string;
   name: keyof T;
-  form: UseFormReturnType<T>;
+  form: UseFormReturnType<Record<string, unknown>>;
   withAsterisk?: boolean;
   required?: boolean;
 };
@@ -74,7 +73,7 @@ export type SelectProps = Omit<
   maxtagcount?: number;
 };
 
-export interface RenderFieldProps {
+export interface RenderFieldProps<T> {
   field: FieldConfig;
-  form: UseFormReturnType<Record<string, unknown>>;
+  form: UseFormReturnType<T, (values: T) => T>;
 }

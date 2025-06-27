@@ -14,7 +14,7 @@ type Props = {
 export const CubeJoditEditor: React.FC<Props> = ({
   value,
   onChange,
-  height = 300,
+  height = 50,
   readonly = false,
   placeholder = "Start typing...",
   label,

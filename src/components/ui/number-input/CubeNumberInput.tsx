@@ -9,14 +9,14 @@ import {
   useEffect,
 } from "react";
 
-interface ExtendedTextInputProps extends TextInputProps {
+interface ExtendedTextInputProps<T> extends TextInputProps<T> {
   prefix?: "currency" | "percent";
   max?: number;
   min?: number;
   decimalScale?: number;
 }
 
-export function CubeNumberInput({
+export function CubeNumberInput<T>({
   label,
   name,
   form,
@@ -28,7 +28,7 @@ export function CubeNumberInput({
   min = 0,
   decimalScale = prefix === "percent" ? 0 : 2,
   ...htmlAttributes
-}: ExtendedTextInputProps) {
+}: ExtendedTextInputProps<T> & { prefix?: string }) {
   const { value, onChange, onBlur } = form.getInputProps(name);
   const error = form.errors[name];
   const isInvalid = !!error;

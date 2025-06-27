@@ -1,4 +1,4 @@
-import { TextInputProps } from "../../../types";
+import { FormFieldProps } from "../../../types";
 import { X } from "lucide-react";
 
 export function CubeTextInput<T>({
@@ -10,9 +10,9 @@ export function CubeTextInput<T>({
   clearable,
   maxtagcount,
   ...htmlAttributes
-}: TextInputProps<T>) {
+}: FormFieldProps<T> & { prefix?: string }) {
   const { value, onChange, onBlur } = form.getInputProps(name as string);
-  const error = form.errors[name];
+  const error = form.errors[name] as string | undefined;
   const isInvalid = !!error;
 
   const handleClear = () => {

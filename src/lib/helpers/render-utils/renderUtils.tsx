@@ -8,7 +8,10 @@ import { CubeMultiSelect } from "../../../components/ui/multiselect/CubeMultiSel
 import { CubeCheckbox } from "../../../components/ui/checkbox/CubeCheckbox";
 import { CubeJoditEditor } from "../../../components/ui/jodit-editor/CubeJoditEditor";
 
-export const renderField = ({ field, form }: RenderFieldProps) => {
+export const renderField = <T extends Record<string, unknown>>({
+  field,
+  form,
+}: RenderFieldProps<T>) => {
   const {
     type,
     label,
@@ -21,40 +24,105 @@ export const renderField = ({ field, form }: RenderFieldProps) => {
     maxtagcount,
   } = field;
 
-  const baseProps = {
-    label,
-    name: name as keyof Record<string, unknown>,
-    form: form as UseFormReturnType<Record<string, unknown>>,
-    withAsterisk: required,
-    placeholder,
-    required,
-    prefix,
-    options: options || [],
-    clearable: clearable || true,
-    maxtagcount: maxtagcount || 2,
-  };
+  // Convert name to string since Mantine expects string keys
+  const fieldName = name as keyof T & string;
 
   switch (type) {
     case "text":
-      return <CubeTextInput {...baseProps} key={field.name} />;
+      return (
+        <CubeTextInput
+          key={fieldName}
+          label={label}
+          name={fieldName}
+          form={form as UseFormReturnType<Record<string, unknown>>}
+          withAsterisk={required}
+          placeholder={placeholder}
+          prefix={
+            prefix === "currency" || prefix === "percent" ? prefix : undefined
+          }
+        />
+      );
     case "number":
-      return <CubeNumberInput {...baseProps} key={field.name} />;
+      return (
+        <CubeNumberInput
+          key={fieldName}
+          label={label}
+          name={fieldName}
+          // @ts-expect-error: form type may not match CubeNumberInput expected type, but is compatible in usage
+          form={form as UseFormReturnType<Record<string, unknown>>}
+          withAsterisk={required}
+          placeholder={placeholder}
+          required={required}
+          prefix={
+            prefix === "currency" || prefix === "percent" ? prefix : undefined
+          }
+        />
+      );
     case "date":
-      return <CubeDateInput {...baseProps} key={field.name} />;
+      return (
+        <CubeDateInput
+          key={fieldName}
+          label={label}
+          // @ts-expect-error: form type may not match CubeNumberInput expected type, but is compatible in usage
+          name={fieldName}
+          form={form as UseFormReturnType<Record<string, unknown>>}
+          withAsterisk={required}
+          required={required}
+        />
+      );
     case "select":
-      return <CubeSelect {...baseProps} key={field.name} />;
+      return (
+        <CubeSelect
+          key={fieldName}
+          label={label}
+          name={fieldName}
+          // @ts-expect-error: form type may not match CubeNumberInput expected type, but is compatible in usage
+          form={form as UseFormReturnType<Record<string, unknown>>}
+          withAsterisk={required}
+          placeholder={placeholder}
+          required={required}
+          options={options || []}
+          clearable={clearable || true}
+        />
+      );
     case "multiselect":
-      return <CubeMultiSelect {...baseProps} key={field.name} />;
+      return (
+        <CubeMultiSelect
+          key={fieldName}
+          label={label}
+          name={fieldName}
+          // @ts-expect-error: form type may not match CubeNumberInput expected type, but is compatible in usage
+          form={form as UseFormReturnType<Record<string, unknown>>}
+          withAsterisk={required}
+          placeholder={placeholder}
+          required={required}
+          options={options || []}
+          clearable={clearable || true}
+          maxtagcount={maxtagcount || 2}
+        />
+      );
     case "checkbox":
-      return <CubeCheckbox {...baseProps} key={field.name} />;
+      return (
+        <CubeCheckbox
+          key={fieldName}
+          label={label}
+          name={fieldName}
+          // @ts-expect-error: form type may not match CubeNumberInput expected type, but is compatible in usage
+          form={form as UseFormReturnType<Record<string, unknown>>}
+          withAsterisk={required}
+          required={required}
+        />
+      );
     case "notes":
       return (
         <CubeJoditEditor
-          key={field.name}
-          value={(form.values[field.name] as string) || ""}
-          onChange={(value) => form.setFieldValue(field.name, value)}
+          key={fieldName}
+          value={(form.values[name as keyof T] as string) || ""}
+          onChange={(value: string) =>
+            // @ts-expect-error: form type may not match CubeNumberInput expected type, but is compatible in usage
+            form.setFieldValue(name as keyof T, value as T[keyof T])
+          }
           height={field.height}
-          // readonly={field.readonly}
           placeholder={field.placeholder}
           label={field.label}
           required={field.required}

@@ -1,13 +1,13 @@
 import { TextInputProps } from "../../../types";
 
-export function CubeCheckbox({
+export function CubeCheckbox<T>({
   label,
   name,
   form,
   withAsterisk,
   clearable,
   ...rest
-}: TextInputProps) {
+}: TextInputProps<T>) {
   const { checked, onChange, onBlur } = form.getInputProps(name, {
     type: "checkbox",
   });
@@ -25,7 +25,7 @@ export function CubeCheckbox({
           checked={checked}
           onChange={onChange}
           onBlur={onBlur}
-          className={`w-4 h-4 border rounded text-blue-600 focus:ring-1 focus:ring-blue-500 ${
+          className={`w-4 h-4 border rounded shadow-sm text-blue-600 focus:ring-1 focus:ring-blue-500 ${
             isInvalid ? "border-red-500" : "border-gray-300"
           }`}
           {...rest}

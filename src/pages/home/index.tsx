@@ -1,27 +1,48 @@
 import { useForm } from "@mantine/form";
 import { renderField } from "../../lib/helpers/render-utils/renderUtils";
 import { FieldConfig } from "../../types";
-// import { useEffect, useState } from "react";
-// import { CubeJoditEditor } from "../../components/ui/jodit-editor/JoditEditor";
+import { useEffect, useRef } from "react";
+import { scrollToElement } from "../../lib/helpers";
+
+type HomePageFormValues = {
+  firstName: string;
+  lastName: string;
+  product: string;
+  social: string[];
+  notes: string;
+  iam: boolean;
+  number?: number;
+  price?: number;
+  percent?: number;
+  date?: Date | string;
+  [key: string]: unknown;
+};
 
 export const HomePage = () => {
-  const form = useForm({
+  const form = useForm<HomePageFormValues>({
     initialValues: {
       firstName: "srinivasa",
       lastName: "",
       product: "Google",
       social: ["Mint", "NDS"],
-      notes: "",
-      iam: false
+      notes: "  ",
+      iam: false,
     },
-    validate: (values) => {
+    validate: (values: HomePageFormValues) => {
       const errors: Record<string, string> = {};
       fields.forEach((field) => {
         if (
           field.required &&
           (!field.showCondition || field.showCondition(values))
         ) {
-          if (!values[field.name]) {
+          const value = values[field.name];
+
+          if (
+            value === undefined ||
+            value === null ||
+            value === "" ||
+            (Array.isArray(value) && value.length === 0)
+          ) {
             errors[field.name] = field.validation?.required || "Required field";
           }
         }
@@ -29,6 +50,9 @@ export const HomePage = () => {
       return errors;
     },
   });
+
+  const fieldRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const formRef = useRef<HTMLFormElement>(null);
 
   const fields: FieldConfig[] = [
     {
@@ -128,37 +152,67 @@ export const HomePage = () => {
     {
       type: "notes",
       name: "notes",
-      label: "notes",
+      label: "Notes",
       width: 12,
       height: 300,
     },
   ];
 
-  const handleSubmit = (values: typeof form.values) => {
+  const handleSubmit = (values: HomePageFormValues) => {
     form.validate();
-    if (form.isValid()) {
-      console.log("Form values:", values);
+
+    if (!form.isValid()) {
+      // Wait for the next render to ensure errors are displayed
+      setTimeout(() => {
+        const firstErrorField = fields.find((field) => form.errors[field.name]);
+
+        if (firstErrorField) {
+          const element = fieldRefs.current[firstErrorField.name];
+          if (element) {
+            scrollToElement(element);
+
+            const focusable = element.querySelector(
+              "input, select, textarea, button, [tabindex]"
+            ) as HTMLElement | null;
+
+            if (focusable) {
+              focusable.focus();
+            }
+          }
+        }
+      }, 100);
+      return;
     }
+
+    console.log("Form values:", values);
   };
 
-  // const [description, setDescription] = useState("");
-
-  // useEffect(() => {
-  //   console.log("Description changed:", description);
-  // }, [description]);
+  useEffect(() => {
+    if (Object.keys(form.errors).length > 0) {
+      const firstErrorName = Object.keys(form.errors)[0];
+      const element = fieldRefs.current[firstErrorName];
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+  }, [form.errors]);
 
   return (
     <div className="mx-20 m-5">
-      <form onSubmit={form.onSubmit(handleSubmit)} noValidate>
+      <form ref={formRef} onSubmit={form.onSubmit(handleSubmit)} noValidate>
         <div className="grid grid-cols-2 gap-x-4 gap-y-2">
           {fields.map((field) => (
-            <div key={field.name} className={`col-span-${field.width || 12}`}>
+            <div
+              key={field.name}
+              className={`col-span-${field.width || 12}`}
+              ref={(el) => {
+                fieldRefs.current[field.name] = el;
+              }}
+            >
               {renderField({ field, form })}
             </div>
           ))}
         </div>
-
-        {/* <CubeJoditEditor value={description} onChange={setDescription} /> */}
 
         <button
           type="submit"
