@@ -27,6 +27,7 @@ export const HomePage = () => {
       social: ["Mint", "NDS"],
       notes: "  ",
       iam: false,
+      price: 200,
     },
     validate: (values: HomePageFormValues) => {
       const errors: Record<string, string> = {};
@@ -61,9 +62,16 @@ export const HomePage = () => {
       label: "First Name",
       required: true,
       placeholder: "Enter your first name",
+      disabled: true,
       width: 4,
     },
-    { type: "text", name: "lastName", label: "Last Name", width: 4 },
+    {
+      type: "text",
+      name: "lastName",
+      label: "Last Name",
+      width: 4,
+      required: true,
+    },
     {
       type: "number",
       name: "number",
@@ -78,6 +86,7 @@ export const HomePage = () => {
       label: "Price",
       required: true,
       prefix: "currency",
+      disabled: true,
       width: 2,
     },
     {
@@ -148,6 +157,7 @@ export const HomePage = () => {
       label: "iam",
       required: true,
       width: 2,
+      showCondition: (state) => state.product === "NDS",
     },
     {
       type: "notes",
@@ -155,6 +165,38 @@ export const HomePage = () => {
       label: "Notes",
       width: 12,
       height: 300,
+    },
+    {
+      type: "special-select",
+      name: "cars",
+      label: "Specilal Select",
+      required: true,
+      width: 2,
+      options: [
+        {
+          value: "project1",
+          label: "E-commerce Platform",
+          description: "Online shopping system",
+          badge: "Active",
+          // icon: <ShoppingCart className="h-5 w-5 text-blue-500" />,
+          meta: {
+            team: "Frontend",
+            progress: "75%",
+          },
+        },
+        {
+          value: "project2",
+          label: "Analytics Dashboard",
+          description: "Data visualization tool",
+          badge: "New",
+          // icon: <BarChart className="h-5 w-5 text-green-500" />,
+          meta: {
+            team: "Data Science",
+            progress: "40%",
+          },
+        },
+        // ... more options
+      ],
     },
   ];
 
@@ -197,6 +239,12 @@ export const HomePage = () => {
     }
   }, [form.errors]);
 
+  const renderFormField = (field: FieldConfig) => {
+    const isVisible = !field.showCondition || field.showCondition(form.values);
+    if (!isVisible) return null;
+    return renderField({ field, form });
+  };
+
   return (
     <div className="mx-20 m-5">
       <form ref={formRef} onSubmit={form.onSubmit(handleSubmit)} noValidate>
@@ -209,7 +257,7 @@ export const HomePage = () => {
                 fieldRefs.current[field.name] = el;
               }}
             >
-              {renderField({ field, form })}
+              {renderFormField(field)}
             </div>
           ))}
         </div>

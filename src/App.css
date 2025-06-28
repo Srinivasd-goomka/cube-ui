@@ -14,7 +14,6 @@
   background-repeat: no-repeat;
 }
 
-
 /* main */
 #root {
   width: 100%;
@@ -32,12 +31,14 @@
 .jodit-ui-button_upload {
   display: none !important;
 }
-/* .jodit-wysiwyg {
-  min-height: 100px !important;
-  max-height: 200px !important;
-}
 .jodit-workplace {
-  min-height: 100px !important;
-  max-height: 200px !important;
-} */
+  min-height: unset !important;
+  height: 70% !important;
+}
+.jodit-container {
+  height: unset !important;
+  min-height: unset !important;
+  height: 90px !important;
+  min-height: 135px !important;
+}
 /* Jodit Editor */

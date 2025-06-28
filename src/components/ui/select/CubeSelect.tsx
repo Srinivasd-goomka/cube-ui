@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import { Check, ChevronDown, Search, X } from "lucide-react";
+import { Check, ChevronDown, X } from "lucide-react";
 import { SelectProps } from "../../../types";
+import { cn } from "../../../lib/helpers";
 
 export function CubeSelect({
   label,
@@ -13,6 +14,7 @@ export function CubeSelect({
   placeholder = "Select an option",
   clearable = true,
   maxWidth = "100%",
+  disabled = false,
 }: SelectProps) {
   const { value, onChange, onBlur } = form.getInputProps(name);
   const error = form.errors[name];
@@ -104,7 +106,10 @@ export function CubeSelect({
       {label && (
         <label
           htmlFor={name}
-          className="block text-sm font-medium text-gray-700 mb-1 truncate"
+          className={cn(
+            "block text-sm font-medium mb-1",
+            disabled ? "text-gray-400" : "text-gray-700"
+          )}
         >
           {label} {withAsterisk && <span className="text-red-500">*</span>}
         </label>
@@ -113,31 +118,50 @@ export function CubeSelect({
       <div className="relative">
         {/* Combined search/selected area */}
         <div
-          className={`flex items-center w-full bg-white px-3 py-2.5 border rounded-md shadow-sm text-sm focus-within:ring-1 focus-within:ring-blue-500 ${
-            isInvalid ? "border-red-500" : "border-gray-300"
-          } ${isOpen ? "ring-1 ring-blue-500" : ""}`}
-          onClick={() => setIsOpen(true)}
+          className={cn(
+            "flex items-center w-full px-3 py-2.5 border rounded-md shadow-sm text-sm",
+            {
+              "border-red-500": isInvalid,
+              "border-gray-300": !isInvalid,
+              "ring-1 ring-blue-500": isOpen,
+              "bg-gray-100 text-gray-400 cursor-not-allowed": disabled,
+              "bg-white focus-within:ring-1 focus-within:ring-blue-500":
+                !disabled,
+            }
+          )}
+          onClick={() => {
+            if (disabled) return;
+            setIsOpen(true);
+          }}
         >
           {/* Search icon - conditionally shown */}
-          {searchable && (
+          {/* {searchable && (
             <Search className="h-4 w-4 text-gray-400 mr-2 flex-shrink-0" />
-          )}
+          )} */}
 
           {/* Input field for search and display */}
           <input
             ref={inputRef}
             type="text"
+            disabled={disabled}
             value={isOpen && searchable ? searchTerm : getSelectedLabel()}
             onChange={(e) => {
+              if (disabled) return;
               if (isOpen && searchable) setSearchTerm(e.target.value);
             }}
             placeholder={
               isOpen && searchable ? "Search options..." : placeholder
             }
-            className={`flex-grow bg-transparent border-none focus:outline-none focus:ring-0 min-w-0 truncate ${
-              !isOpen && !selected ? "text-gray-400" : ""
-            }`}
-            onFocus={() => setIsOpen(true)}
+            className={cn(
+              "flex-grow bg-transparent border-none focus:outline-none focus:ring-0 min-w-0 truncate",
+              {
+                "text-gray-400 cursor-not-allowed": disabled,
+                "text-gray-400": !isOpen && !selected && !disabled,
+              }
+            )}
+            onFocus={() => {
+              if (!disabled) setIsOpen(true);
+            }}
             readOnly={!searchable}
           />
 
@@ -146,7 +170,13 @@ export function CubeSelect({
             <button
               type="button"
               onClick={handleClear}
-              className="text-gray-400 hover:text-gray-600 ml-2 flex-shrink-0"
+              disabled={disabled}
+              className={cn(
+                "ml-2 flex-shrink-0",
+                disabled
+                  ? "text-gray-300 cursor-not-allowed"
+                  : "text-gray-400 hover:text-gray-600"
+              )}
             >
               <X className="h-4 w-4" />
             </button>
@@ -155,13 +185,26 @@ export function CubeSelect({
           {/* Dropdown toggle */}
           <button
             type="button"
-            onClick={toggleDropdown}
-            className="text-gray-400 hover:text-gray-600 ml-2 flex-shrink-0"
+            onClick={(e) => {
+              if (disabled) return;
+              toggleDropdown(e);
+            }}
+            disabled={disabled}
+            className={cn(
+              "ml-2 flex-shrink-0 transition-colors",
+              disabled
+                ? "text-gray-300 cursor-not-allowed"
+                : "text-gray-400 hover:text-gray-600"
+            )}
           >
             <ChevronDown
-              className={`h-4 w-4 transition-transform ${
-                isOpen ? "rotate-180" : ""
-              }`}
+              className={cn(
+                "h-4 w-4 transition-transform duration-200",
+                isOpen && "rotate-180",
+                disabled
+                  ? "text-gray-300 cursor-not-allowed"
+                  : "text-gray-400 hover:text-gray-600"
+              )}
             />
           </button>
         </div>
@@ -169,9 +212,10 @@ export function CubeSelect({
         {/* Dropdown menu with auto-positioning */}
         {isOpen && (
           <div
-            className={`absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-lg overflow-hidden ${
+            className={cn(
+              "absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-lg overflow-hidden",
               position === "above" ? "bottom-full mb-1" : "top-full mt-1"
-            }`}
+            )}
           >
             {/* Options list */}
             <div className="max-h-60 overflow-y-auto">
@@ -182,18 +226,20 @@ export function CubeSelect({
                     <div
                       key={option.value}
                       onClick={() => handleSelect(option.value)}
-                      className={`px-4 py-2.5 text-sm cursor-pointer flex items-center gap-3 hover:bg-blue-50 transition-colors ${
-                        isSelected ? "bg-blue-50 font-medium" : ""
-                      }`}
+                      className={cn(
+                        "px-4 py-2.5 text-sm cursor-pointer flex items-center gap-3 hover:bg-blue-50 transition-colors",
+                        isSelected && "bg-blue-50 font-medium"
+                      )}
                     >
                       {/* Tick indicator */}
                       {isSelected && tickPosition !== "only-tick" && (
                         <Check
-                          className={`h-4 w-4 text-blue-600 flex-shrink-0 ${
+                          className={cn(
+                            "h-4 w-4 text-blue-600 flex-shrink-0",
                             tickPosition === "left"
                               ? "order-first"
                               : "order-last"
-                          }`}
+                          )}
                           strokeWidth={3}
                         />
                       )}

@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { FieldConfig } from "../../../types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -9,7 +10,16 @@ export const isEmptyObject = (obj: Record<string, unknown>) => {
   return Object.keys(obj).length === 0;
 };
 
-import { FieldConfig } from "../../../types";
+export const scrollToElement = (element: HTMLElement) => {
+  const headerOffset = 70;
+  const elementPosition = element.getBoundingClientRect().top;
+  const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+  window.scrollTo({
+    top: offsetPosition,
+    behavior: "smooth",
+  });
+};
 
 export function groupFieldsByRow(fields: FieldConfig[]) {
   const rows: Array<Array<FieldConfig>> = [];
@@ -35,14 +45,3 @@ export function groupFieldsByRow(fields: FieldConfig[]) {
 
   return rows;
 }
-
-export const scrollToElement = (element: HTMLElement) => {
-  const headerOffset = 70;
-  const elementPosition = element.getBoundingClientRect().top;
-  const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-  window.scrollTo({
-    top: offsetPosition,
-    behavior: "smooth",
-  });
-};

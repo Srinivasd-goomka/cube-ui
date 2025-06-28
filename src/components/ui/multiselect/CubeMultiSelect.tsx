@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import { ChevronDown, Search, X } from "lucide-react";
+import { ChevronDown, X } from "lucide-react";
 import { SelectProps } from "../../../types";
+import { cn } from "../../../lib/helpers";
 
 export function CubeMultiSelect({
   label,
@@ -13,6 +14,7 @@ export function CubeMultiSelect({
   maxWidth = "100%",
   searchable = true,
   maxtagcount = 2,
+  disabled = false,
 }: SelectProps) {
   const { value, onChange, onBlur } = form.getInputProps(name);
   const error = form.errors[name];
@@ -73,17 +75,17 @@ export function CubeMultiSelect({
 
   const handleToggle = (value: string | number) => {
     const newSelected = selected.includes(value)
-      ? selected.filter(v => v !== value)
+      ? selected.filter((v) => v !== value)
       : [...selected, value];
-    
+
     setSelected(newSelected);
     onChange(newSelected);
   };
 
   const handleSelectAll = () => {
-    const allValues = options.map(option => option.value);
+    const allValues = options.map((option) => option.value);
     const newSelected = selected.length === options.length ? [] : allValues;
-    
+
     setSelected(newSelected);
     onChange(newSelected);
   };
@@ -98,13 +100,14 @@ export function CubeMultiSelect({
 
   const handleRemoveTag = (e: React.MouseEvent, value: string | number) => {
     e.stopPropagation();
-    const newSelected = selected.filter(v => v !== value);
+    const newSelected = selected.filter((v) => v !== value);
     setSelected(newSelected);
     onChange(newSelected);
   };
 
   const isAllSelected = selected.length === options.length;
-  const isIndeterminate = selected.length > 0 && selected.length < options.length;
+  const isIndeterminate =
+    selected.length > 0 && selected.length < options.length;
 
   // Toggle dropdown open/closed
   const toggleDropdown = (e: React.MouseEvent) => {
@@ -115,19 +118,16 @@ export function CubeMultiSelect({
   // Render tags with truncation and +n counter
   const renderTags = () => {
     if (selected.length === 0) return null;
-    
-    const visibleTags = maxtagcount > 0 
-      ? selected.slice(0, maxtagcount) 
-      : selected;
-    
-    const hiddenCount = maxtagcount > 0 
-      ? selected.length - maxtagcount 
-      : 0;
+
+    const visibleTags =
+      maxtagcount > 0 ? selected.slice(0, maxtagcount) : selected;
+
+    const hiddenCount = maxtagcount > 0 ? selected.length - maxtagcount : 0;
 
     return (
       <div className="flex flex-wrap items-center gap-1 flex-1 min-w-0">
         {visibleTags.map((val) => {
-          const option = options.find(opt => opt.value === val);
+          const option = options.find((opt) => opt.value === val);
           return option ? (
             <span
               key={val}
@@ -138,15 +138,24 @@ export function CubeMultiSelect({
               </span>
               <button
                 type="button"
-                onClick={(e) => handleRemoveTag(e, val)}
-                className="text-blue-800 hover:text-blue-900 ml-1 rounded-full hover:bg-blue-200 p-0.5"
+                onClick={(e) => {
+                  if (disabled) return;
+                  handleRemoveTag(e, val);
+                }}
+                disabled={disabled}
+                className={cn(
+                  "ml-1 rounded-full p-0.5",
+                  disabled
+                    ? "text-blue-300 cursor-not-allowed"
+                    : "text-blue-800 hover:text-blue-900 hover:bg-blue-200"
+                )}
               >
                 <X className="h-3 w-3" />
               </button>
             </span>
           ) : null;
         })}
-        
+
         {hiddenCount > 0 && (
           <span className="bg-gray-100 text-gray-800 text-xs px-2 py-0.5 rounded-full">
             +{hiddenCount}
@@ -161,7 +170,10 @@ export function CubeMultiSelect({
       {label && (
         <label
           htmlFor={name}
-          className="block text-sm font-medium text-gray-700 mb-1 truncate"
+          className={cn(
+            "block text-sm font-medium mb-1",
+            disabled ? "text-gray-400" : "text-gray-700"
+          )}
         >
           {label} {withAsterisk && <span className="text-red-500">*</span>}
         </label>
@@ -170,15 +182,23 @@ export function CubeMultiSelect({
       <div className="relative">
         {/* Combined search/selected area */}
         <div
-          className={`flex items-center w-full bg-white px-3 py-2.5 border rounded-md shadow-sm text-sm focus-within:ring-1 focus-within:ring-blue-500 ${
-            isInvalid ? "border-red-500" : "border-gray-300"
-          } ${isOpen ? "ring-1 ring-blue-500" : ""}`}
-          onClick={() => setIsOpen(true)}
+          className={cn(
+            "flex items-center w-full px-3 py-2.5 border rounded-md shadow-sm text-sm",
+            isInvalid ? "border-red-500" : "border-gray-300",
+            isOpen && "ring-1 ring-blue-500",
+            disabled
+              ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+              : "bg-white focus-within:ring-1 focus-within:ring-blue-500"
+          )}
+          onClick={() => {
+            if (disabled) return;
+            setIsOpen(true);
+          }}
         >
           {/* Search icon - conditionally shown */}
-          {searchable && (
+          {/* {searchable && (
             <Search className="h-4 w-4 text-gray-400 mr-2 flex-shrink-0" />
-          )}
+          )} */}
 
           {/* Input field for search and display */}
           <div className="flex-1 min-w-0 flex items-center">
@@ -187,10 +207,18 @@ export function CubeMultiSelect({
                 ref={inputRef}
                 type="text"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e) => {
+                  if (!disabled) setSearchTerm(e.target.value);
+                }}
                 placeholder="Search options..."
-                className="w-full bg-transparent border-none focus:outline-none focus:ring-0 min-w-0"
-                onFocus={() => setIsOpen(true)}
+                disabled={disabled}
+                className={cn(
+                  "w-full bg-transparent border-none focus:outline-none focus:ring-0 min-w-0",
+                  disabled && "text-gray-400 cursor-not-allowed"
+                )}
+                onFocus={() => {
+                  if (!disabled) setIsOpen(true);
+                }}
               />
             ) : selected.length > 0 ? (
               renderTags()
@@ -200,11 +228,17 @@ export function CubeMultiSelect({
           </div>
 
           {/* Clear button when value is selected and clearable */}
-          {clearable && selected.length > 0 && (
+          {clearable && selected && !isOpen && (
             <button
               type="button"
               onClick={handleClear}
-              className="text-gray-400 hover:text-gray-600 ml-2 flex-shrink-0"
+              disabled={disabled}
+              className={cn(
+                "ml-2 flex-shrink-0",
+                disabled
+                  ? "text-gray-300 cursor-not-allowed"
+                  : "text-gray-400 hover:text-gray-600"
+              )}
             >
               <X className="h-4 w-4" />
             </button>
@@ -213,11 +247,20 @@ export function CubeMultiSelect({
           {/* Dropdown toggle */}
           <button
             type="button"
-            onClick={toggleDropdown}
-            className="text-gray-400 hover:text-gray-600 ml-2 flex-shrink-0"
+            onClick={(e) => {
+              if (disabled) return;
+              toggleDropdown(e);
+            }}
+            disabled={disabled}
+            className={cn(
+              "ml-2 flex-shrink-0 transition-colors",
+              disabled
+                ? "text-gray-300 cursor-not-allowed"
+                : "text-gray-400 hover:text-gray-600"
+            )}
           >
             <ChevronDown
-              className={`h-4 w-4 transition-transform ${
+              className={`h-4 w-4 transition-transform duration-200 ${
                 isOpen ? "rotate-180" : ""
               }`}
             />
@@ -227,33 +270,36 @@ export function CubeMultiSelect({
         {/* Dropdown menu with auto-positioning */}
         {isOpen && (
           <div
-            className={`absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-lg overflow-hidden ${
+            className={cn(
+              "absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-lg overflow-hidden",
               position === "above" ? "bottom-full mb-1" : "top-full mt-1"
-            }`}
+            )}
           >
             {/* Options list */}
             <div className="max-h-60 overflow-y-auto">
               {/* "Select All" option */}
-              <div
-                onClick={handleSelectAll}
-                className="px-4 py-2.5 text-sm cursor-pointer flex items-center gap-3 hover:bg-blue-50 transition-colors border-b border-gray-100"
-              >
-                <div className="relative flex items-center">
-                  <input
-                    type="checkbox"
-                    checked={isAllSelected}
-                    ref={(el) => {
-                      if (el) {
-                        el.indeterminate = isIndeterminate;
-                      }
-                    }}
-                    onChange={() => {}}
-                    className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                  />
+              {filteredOptions.length > 0 && (
+                <div
+                  onClick={handleSelectAll}
+                  className="px-4 py-2.5 text-sm cursor-pointer flex items-center gap-3 hover:bg-blue-50 transition-colors border-b border-gray-100"
+                >
+                  <div className="relative flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={isAllSelected}
+                      ref={(el) => {
+                        if (el) {
+                          el.indeterminate = isIndeterminate;
+                        }
+                      }}
+                      onChange={() => {}}
+                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    />
+                  </div>
+                  <span className="font-medium">Select All</span>
                 </div>
-                <span className="font-medium">Select All</span>
-              </div>
-              
+              )}
+
               {filteredOptions.length > 0 ? (
                 filteredOptions.map((option) => {
                   const isSelected = selected.includes(option.value);
@@ -261,9 +307,10 @@ export function CubeMultiSelect({
                     <div
                       key={option.value}
                       onClick={() => handleToggle(option.value)}
-                      className={`px-4 py-2.5 text-sm cursor-pointer flex items-center gap-3 hover:bg-blue-50 transition-colors ${
-                        isSelected ? "bg-blue-50" : ""
-                      }`}
+                      className={cn(
+                        "px-4 py-2.5 text-sm cursor-pointer flex items-center gap-3 hover:bg-blue-50 transition-colors",
+                        isSelected && "bg-blue-50"
+                      )}
                     >
                       {/* Checkbox indicator */}
                       <div className="relative flex items-center">
@@ -274,7 +321,7 @@ export function CubeMultiSelect({
                           className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                         />
                       </div>
-                      
+
                       {/* Option label with truncation */}
                       <span className="flex-1 truncate">{option.label}</span>
                     </div>

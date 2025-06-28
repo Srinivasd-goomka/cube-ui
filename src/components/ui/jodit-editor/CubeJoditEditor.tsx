@@ -1,7 +1,7 @@
 import React, { useRef, useMemo } from "react";
 import JoditEditor from "jodit-react";
 
-type Props = {
+type JoditEditorProps = {
   value: string;
   onChange: (content: string) => void;
   height?: number | string;
@@ -11,7 +11,7 @@ type Props = {
   required?: boolean;
 };
 
-export const CubeJoditEditor: React.FC<Props> = ({
+export const CubeJoditEditor: React.FC<JoditEditorProps> = ({
   value,
   onChange,
   height = 50,
@@ -35,15 +35,7 @@ export const CubeJoditEditor: React.FC<Props> = ({
       uploader: {
         insertImageAsBase64URI: true,
       },
-      buttons: [
-        "bold",
-        "italic",
-        "underline",
-        "ul",
-        "ol",
-        "link",
-        "image",
-      ],
+      buttons: ["bold", "italic", "underline", "ul", "ol", "link", "image"],
     }),
     [readonly, height, placeholder]
   );
@@ -61,7 +53,7 @@ export const CubeJoditEditor: React.FC<Props> = ({
           value={value}
           config={config}
           onBlur={(newContent) => onChange(newContent)}
-          onChange={onChange} 
+          onChange={onChange}
         />
       </div>
     </div>

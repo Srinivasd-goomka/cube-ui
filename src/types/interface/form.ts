@@ -19,8 +19,11 @@ export interface FieldConfig {
   searchable?: boolean;
   clearable?: boolean;
   maxtagcount?: number;
+  disabled?: boolean;
   height?: number;
   showCondition?: (formValues: Record<string, unknown>) => boolean;
+  field?: unknown;
+  form?: unknown;
 }
 
 export interface DynamicFormProps {
@@ -42,6 +45,7 @@ export interface FormFieldProps<T> {
   placeholder?: string;
   searchable?: boolean;
   clearable?: boolean;
+  disabled?: boolean;
   maxtagcount?: number;
 }
 
@@ -54,6 +58,7 @@ export type DateInputProps<T = unknown> = {
   form: UseFormReturnType<Record<string, unknown>>;
   withAsterisk?: boolean;
   required?: boolean;
+  disabled?: boolean;
 };
 
 export type SelectProps = Omit<
@@ -71,6 +76,9 @@ export type SelectProps = Omit<
   clearable?: boolean;
   maxWidth?: string;
   maxtagcount?: number;
+  disabled?: boolean;
+  renderOption?: unknown;
+  renderSelected?: unknown;
 };
 
 export interface RenderFieldProps<T> {

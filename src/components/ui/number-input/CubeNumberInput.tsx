@@ -8,12 +8,14 @@ import {
   useState,
   useEffect,
 } from "react";
+import { cn } from "../../../lib/helpers";
 
 interface ExtendedTextInputProps<T> extends TextInputProps<T> {
   prefix?: "currency" | "percent";
   max?: number;
   min?: number;
   decimalScale?: number;
+  disabled?: boolean;
 }
 
 export function CubeNumberInput<T>({
@@ -25,6 +27,7 @@ export function CubeNumberInput<T>({
   clearable,
   prefix,
   max = prefix === "percent" ? 100 : Infinity,
+  disabled = false,
   min = 0,
   decimalScale = prefix === "percent" ? 0 : 2,
   ...htmlAttributes
@@ -139,7 +142,10 @@ export function CubeNumberInput<T>({
       {label && (
         <label
           htmlFor={name}
-          className="block text-sm font-medium text-gray-700 mb-1"
+          className={cn(
+            "block text-sm font-medium mb-1",
+            disabled ? "text-gray-400" : "text-gray-700"
+          )}
         >
           {label}
           {withAsterisk && <span className="text-red-500">*</span>}
@@ -149,7 +155,12 @@ export function CubeNumberInput<T>({
       <div className="relative flex items-center">
         {/* Prefix icon for currency/percent */}
         {prefix && (
-          <div className={`absolute left-2 `}>
+          <div
+            className={cn(
+              "absolute left-2",
+              disabled ? "text-gray-300" : "text-gray-400"
+            )}
+          >
             {prefix === "currency" ? (
               <DollarSign className="w-3.5 h-3.5 text-gray-400" />
             ) : prefix === "percent" ? (
@@ -172,14 +183,22 @@ export function CubeNumberInput<T>({
             placeholder ||
             (prefix === "currency" ? "0.00" : prefix === "percent" ? "0" : "")
           }
-          className={`w-full py-2 border rounded-md shadow-sm text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 ${
-            prefix ? "pl-7" : "pl-3"
-          } ${isInvalid ? "border-red-500" : "border-gray-300"}`}
+          className={cn(
+            "w-full py-2 border rounded-md shadow-sm text-sm focus:outline-none focus:ring-1",
+            prefix ? "pl-7" : "pl-3",
+            disabled
+              ? "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed"
+              : isInvalid
+              ? "border-red-500 focus:ring-red-500"
+              : "border-gray-300 focus:ring-blue-500"
+          )}
+          disabled={disabled}
+          readOnly={disabled}
           {...htmlAttributes}
         />
 
         {/* Clear button */}
-        {inputValue && clearable && (
+        {inputValue && clearable && !disabled && (
           <button
             type="button"
             className="absolute right-3 text-gray-400 hover:text-gray-600"

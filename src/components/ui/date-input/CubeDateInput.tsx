@@ -1,12 +1,14 @@
 import React, { useState, useRef, useEffect, KeyboardEvent } from "react";
 import dayjs from "dayjs";
 import { DateInputProps } from "../../../types";
+import { cn } from "../../../lib/helpers";
 
 export function CubeDateInput<T>({
   label,
   name,
   form,
   withAsterisk,
+  disabled = false,
 }: DateInputProps<T>) {
   const { value, onChange, onBlur } = form.getInputProps(name as string);
   const error = form.errors[name as string];
@@ -133,7 +135,10 @@ export function CubeDateInput<T>({
       {label && (
         <label
           htmlFor={`date-input-${String(name)}`}
-          className="block text-sm font-medium text-gray-700 mb-1"
+          className={cn(
+            "block text-sm font-medium mb-1",
+            disabled ? "text-gray-400" : "text-gray-700"
+          )}
         >
           {label}
           {withAsterisk && <span className="text-red-500">*</span>}
@@ -145,7 +150,10 @@ export function CubeDateInput<T>({
         <div
           className="absolute left-2 text-gray-400"
           onClick={(e) => {
-            e.preventDefault();
+            if (disabled) {
+              e.preventDefault();
+              return;
+            }
             setShowPicker(!showPicker);
           }}
         >
@@ -170,14 +178,25 @@ export function CubeDateInput<T>({
           id={`date-input-${String(name)}`}
           type="text"
           value={(value as string) || ""}
-          onChange={handleInputChange}
+          onChange={(e) => {
+            if (!disabled) handleInputChange(e);
+          }}
           onBlur={onBlur}
-          onFocus={() => setShowPicker(true)}
-          onKeyDown={handleKeyDown}
+          onFocus={() => {
+            if (!disabled) setShowPicker(true);
+          }}
+          onKeyDown={(e) => {
+            if (!disabled) handleKeyDown(e);
+          }}
           placeholder="MM/DD/YYYY"
-          className={`w-full pl-8 pr-10 py-2 border rounded-md shadow-sm text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 ${
-            isInvalid ? "border-red-500" : "border-gray-300"
-          }`}
+          className={cn(
+            "w-full pl-8 pr-10 py-2 border rounded-md shadow-sm text-sm focus:outline-none focus:ring-1",
+            disabled
+              ? "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed"
+              : isInvalid
+              ? "border-red-500 focus:ring-red-500"
+              : "border-gray-300 focus:ring-blue-500"
+          )}
         />
 
         {/* Clear button (only shows when value exists) */}
@@ -208,9 +227,10 @@ export function CubeDateInput<T>({
       {showPicker && (
         <div
           ref={pickerRef}
-          className={`date-picker absolute z-30 bg-white border border-gray-300 rounded-md shadow-lg min-w-[280px] ${
+          className={cn(
+            "date-picker absolute z-30 bg-white border border-gray-300 rounded-md shadow-lg min-w-[280px]",
             position === "above" ? "bottom-full mb-1" : "mt-1"
-          }`}
+          )}
         >
           <DatePicker
             selected={currentDate}
@@ -268,15 +288,16 @@ const DatePicker = ({
         key={i}
         type="button"
         disabled={isDisabled}
-        className={`p-2 w-8 h-8 flex items-center justify-center text-sm rounded-full transition-colors ${
-          isSelected
-            ? "bg-blue-500 text-white"
-            : isToday
-            ? "bg-blue-100 text-blue-800"
-            : isDisabled
-            ? "text-gray-300 cursor-not-allowed"
-            : "text-gray-700 hover:bg-gray-100"
-        }`}
+        className={cn(
+          "p-2 w-8 h-8 flex items-center justify-center text-sm rounded-full transition-colors",
+          {
+            "bg-blue-500 text-white": isSelected,
+            "bg-blue-100 text-blue-800": isToday && !isSelected,
+            "text-gray-300 cursor-not-allowed": isDisabled,
+            "text-gray-700 hover:bg-gray-100":
+              !isSelected && !isToday && !isDisabled,
+          }
+        )}
         onClick={() => onChange(date)}
       >
         {i}

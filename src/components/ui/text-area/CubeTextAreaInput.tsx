@@ -2,7 +2,7 @@ import { cn } from "../../../lib/helpers";
 import { FormFieldProps } from "../../../types";
 import { X } from "lucide-react";
 
-export function CubeTextInput<T>({
+export function CubeTextAreaInput<T>({
   label,
   name,
   form,
@@ -36,11 +36,12 @@ export function CubeTextInput<T>({
       )}
 
       <div className="relative">
-        <input
+        <textarea
           {...htmlAttributes}
           id={name}
           name={name}
           value={value}
+          rows={3}
           onChange={onChange}
           onBlur={onBlur}
           autoComplete={name as string}
