@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host --mode development",
+    "dev": "vite --host --port 3000 --mode development",
     "build:dev": "vite build --mode development",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@mantine/form": "^8.0.0",
+    "@tanstack/react-query": "^5.81.5",
     "axios": "^1.9.0",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",

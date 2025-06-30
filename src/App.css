@@ -20,7 +20,7 @@
 }
 .cube-container__main {
   transition: margin-left 0.3s ease;
-  padding-top: 4rem;
+  padding-top: 4.08rem;
 }
 .cube-container__main .cube-container__content {
   transition: margin-left 0.3s ease;

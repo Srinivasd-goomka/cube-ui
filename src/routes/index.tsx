@@ -2,10 +2,13 @@ import { RouteObject } from "react-router-dom";
 import { lazy } from "react";
 
 const RootLayout = lazy(() => import("../layouts/RootLayout"));
+const UserLogin = lazy(() => import("../pages/auth/login"));
 
-import UserLogin from "../pages/auth/login";
-import { HomePage } from "../pages/home";
+// Lazy load the HomePage component
+const HomePage = lazy(() => import("../pages/home"));
 
+// Lazy load the SitesPage component
+const SitesPage = lazy(() => import("../pages/sites"));
 
 export const nonAuthRoutes: RouteObject[] = [
   {
@@ -39,6 +42,16 @@ export const authRoutes: RouteObject[] = [
       {
         index: true,
         element: <HomePage />,
+      },
+    ],
+  },
+  {
+    path: "/sites",
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: <SitesPage />,
       },
     ],
   },

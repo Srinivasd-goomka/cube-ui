@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosError, AxiosResponse } from "axios";
+import { getLocalStorage } from "../helpers";
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -6,8 +7,9 @@ const axiosInstance: AxiosInstance = axios.create({
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
-    "access-control-allow-origin": "*",
-    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Credentials": true,
+    "Access-Control-Allow-Methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS",
   },
 });
 
@@ -16,7 +18,7 @@ axiosInstance.interceptors.request.use(
   (config) => {
     const token =
       typeof window !== "undefined"
-        ? localStorage.getItem("authToken")
+        ? getLocalStorage("accessToken")
         : null;
     if (token) {
       config.headers.Authorization = `BEARER ${token}`;

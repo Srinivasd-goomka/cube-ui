@@ -7,7 +7,7 @@ import { Login, LoginResponse, UserRoot } from "../../types";
 class AuthService extends HelperService {
   // private baseAuth = "/auth";
   private loginEndpoint = `/login`;
-  private me = `users/profile`;
+  private me = `/users/profile`;
 
   public async login(requestBody: Partial<Login>): Promise<LoginResponse> {
     return handleRequest(
@@ -17,7 +17,7 @@ class AuthService extends HelperService {
 
   public async getUser(): Promise<UserRoot> {
     console.log(this.me);
-    return handleRequest(this.get<UserRoot>(this.me));
+    return handleRequest(this.post<UserRoot, undefined>(this.me, undefined));
   }
 }
 

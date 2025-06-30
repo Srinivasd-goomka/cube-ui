@@ -12,7 +12,7 @@ import {
 } from "../../../static-data";
 import { commonProductMetadata } from "../common";
 
-export function ptProductMetadata() {
+export function ptProductMetadataFields() {
   const formMetaData = [
     ...commonProductMetadata(),
     {

@@ -14,7 +14,7 @@ export function CubeSpecialSelect({
   clearable = true,
   maxWidth = "100%",
   disabled = false,
-  renderOption, 
+  renderOption,
   renderSelected,
 }: SelectProps) {
   const { value, onChange, onBlur } = form.getInputProps(name);
@@ -143,23 +143,8 @@ export function CubeSpecialSelect({
             ) : (
               <div className="truncate">
                 {selected ? (
-                  renderSelected ? (
-                    renderSelected(getSelectedOption()!)
-                  ) : (
-                    <div className="flex items-center gap-2">
-                      {getSelectedOption()?.icon && (
-                        <div className="flex-shrink-0">
-                          {getSelectedOption()?.icon}
-                        </div>
-                      )}
-                      <span>{getSelectedOption()?.label}</span>
-                      {getSelectedOption()?.description && (
-                        <span className="text-xs text-gray-500 ml-2">
-                          {getSelectedOption()?.description}
-                        </span>
-                      )}
-                    </div>
-                  )
+                  typeof renderSelected === "function" &&
+                  renderSelected(getSelectedOption()!)
                 ) : (
                   <span className="text-gray-400">{placeholder}</span>
                 )}
@@ -208,59 +193,15 @@ export function CubeSpecialSelect({
                     <div
                       key={option.value}
                       onClick={() => handleSelect(option.value)}
-                      className={`py-3 text-sm cursor-pointer flex items-start gap-3 hover:bg-blue-50 transition-colors ${
+                      className={`py-3 pr-3 text-sm cursor-pointer flex items-start gap-3 hover:bg-blue-50 transition-colors ${
                         isSelected ? "bg-blue-50" : ""
                       }`}
                     >
                       {/* Custom option rendering */}
-                      {renderOption ? (
+                      {typeof renderOption === "function" ? (
                         renderOption(option, isSelected)
                       ) : (
                         <>
-                          {/* Icon/avatar */}
-                          {option.icon && (
-                            <div className="flex-shrink-0 mt-0.5">
-                              {option.icon}
-                            </div>
-                          )}
-
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2">
-                              <span className="font-medium truncate">
-                                {option.label}
-                              </span>
-                              {option.badge && (
-                                <span className="text-xs px-2 py-0.5 rounded-full bg-blue-100 text-blue-800">
-                                  {option.badge}
-                                </span>
-                              )}
-                            </div>
-
-                            {option.description && (
-                              <p className="text-xs text-gray-500 mt-1 truncate">
-                                {option.description}
-                              </p>
-                            )}
-
-                            {option.meta && (
-                              <div className="flex gap-2 mt-1">
-                                {Object.entries(option.meta).map(
-                                  ([key, value]) => (
-                                    <div
-                                      key={key}
-                                      className="text-xs text-gray-500"
-                                    >
-                                      <span className="font-medium">
-                                        {key}:
-                                      </span>{" "}
-                                      {value}
-                                    </div>
-                                  )
-                                )}
-                              </div>
-                            )}
-                          </div>
-
                           {/* Selection indicator */}
                           {isSelected && (
                             <Check

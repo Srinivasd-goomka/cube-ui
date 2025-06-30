@@ -3,24 +3,24 @@ import { cn } from "../../../lib/helpers";
 type AvatarProps = {
   src?: string;
   alt?: string;
-  size?: "sm" | "md" | "lg" | "xl"; 
+  size?: "sm" | "md" | "lg" | "xl";
   initials?: string;
-  status?: "online" | "offline" | "busy" | "away"; 
+  status?: "online" | "offline" | "busy" | "away";
   border?: boolean;
   className?: string;
 };
 
-export function Avatar({
+export function CubeAvatar({
   src,
   alt = "User Avatar",
-  size = "md",
+  size = "sm",
   initials,
   status,
   border = true,
   className,
 }: AvatarProps) {
   const sizeClasses = {
-    sm: "w-8 h-8 text-xs",
+    sm: "w-10 h-10 text-xs",
     md: "w-12 h-12 text-sm",
     lg: "w-16 h-16 text-lg",
     xl: "w-20 h-20 text-xl",
@@ -39,7 +39,7 @@ export function Avatar({
     <div className={cn("relative inline-block", className)}>
       <div
         className={cn(
-          "flex items-center justify-center rounded-full border-2",
+          "flex items-center justify-center rounded-full border-",
           sizeClasses[size],
           border ? "border-gray-300" : "",
           src ? "" : "bg-gray-200"
@@ -52,7 +52,7 @@ export function Avatar({
             className="rounded-full object-cover w-full h-full"
           />
         ) : (
-          <span className="font-bold text-white">{initials}</span>
+          <span className="font-bold text-gray-600">{initials}</span>
         )}
       </div>
 

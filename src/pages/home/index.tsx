@@ -18,7 +18,7 @@ type HomePageFormValues = {
   [key: string]: unknown;
 };
 
-export const HomePage = () => {
+ const HomePage = () => {
   const form = useForm<HomePageFormValues>({
     initialValues: {
       firstName: "srinivasa",
@@ -140,11 +140,7 @@ export const HomePage = () => {
         { value: "Google", label: "Google" },
         { value: "Mint", label: "Mint" },
         { value: "NDS", label: "NDS" },
-        {
-          value: "PortaPottyRentalGuide.com",
-          label:
-            "PortaPottyRentalGuide.com PortaPottyRentalGuide.com PortaPottyRentalGuide.com",
-        },
+        { value: "abc.com", label: "abc.com" },
         { value: "Project Armada", label: "Project Armada" },
         { value: "Search Advisor", label: "Search Advisor" },
         { value: "Triares", label: "Triares" },
@@ -177,8 +173,6 @@ export const HomePage = () => {
           value: "project1",
           label: "E-commerce Platform",
           description: "Online shopping system",
-          badge: "Active",
-          // icon: <ShoppingCart className="h-5 w-5 text-blue-500" />,
           meta: {
             team: "Frontend",
             progress: "75%",
@@ -188,14 +182,12 @@ export const HomePage = () => {
           value: "project2",
           label: "Analytics Dashboard",
           description: "Data visualization tool",
-          badge: "New",
-          // icon: <BarChart className="h-5 w-5 text-green-500" />,
           meta: {
             team: "Data Science",
             progress: "40%",
           },
         },
-        // ... more options
+
       ],
     },
   ];
@@ -272,3 +264,5 @@ export const HomePage = () => {
     </div>
   );
 };
+
+export default HomePage;

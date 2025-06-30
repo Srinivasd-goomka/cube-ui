@@ -1,10 +1,13 @@
 import { BrowserRouter as Router, useRoutes } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./App.css";
 import { authRoutes, nonAuthRoutes } from "./routes";
-import { AuthProvider } from "./contexts/AuthProvider";
+import { AuthProvider } from "./context/AuthProvider";
 import { useAuthContext } from "./hooks/use-authContext";
 import { ToastContainer } from "react-toastify";
 import { useEffect } from "react";
+
+const queryClient = new QueryClient();
 
 const AppRoutes = () => {
   const { isAuthenticated } = useAuthContext();
@@ -20,12 +23,14 @@ const App: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
   return (
-    <Router>
-      <ToastContainer position="top-right" autoClose={2000} />
-      <AuthProvider>
-        <AppRoutes />
-      </AuthProvider>
-    </Router>
+    <QueryClientProvider client={queryClient}>
+      <Router>
+        <ToastContainer position="top-right" autoClose={2000} />
+        <AuthProvider>
+          <AppRoutes />
+        </AuthProvider>
+      </Router>
+    </QueryClientProvider>
   );
 };
 

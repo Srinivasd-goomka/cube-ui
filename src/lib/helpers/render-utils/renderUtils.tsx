@@ -10,6 +10,38 @@ import { CubeJoditEditor } from "../../../components/ui/jodit-editor/CubeJoditEd
 import { CubeSpecialSelect } from "../../../components/ui/special-select/CubeSpecialSelect";
 import { Check } from "lucide-react";
 
+const renderSelected = (option: unknown) => (
+  <div className="flex items-center gap-2">
+    <div>
+      <div className="font-medium">{(option as { label: string }).label}</div>
+    </div>
+  </div>
+);
+
+const renderOption = (option: unknown, isSelected: boolean) => (
+  <div className="flex items-center gap-3 w-full pl-3">
+    <div className="flex-1 min-w-0">
+      <div className="flex items-center">
+        <span className="font-medium">{(option as { label: string }).label}</span>
+      </div>
+      <p className="text-sm text-gray-600 mt-1">{(option as { description?: string }).description}</p>
+
+      {"meta" in (option as object) && (option as { meta?: Record<string, unknown> }).meta && (
+        <div className="flex gap-3 mt-2 text-xs text-gray-500">
+          {Object.entries((option as { meta: Record<string, unknown> }).meta).map(([key, value]) => (
+            <div key={key}>
+              <span className="font-medium">{key}:</span> {String(value)}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+    {isSelected && (
+      <Check className="h-5 w-5 text-blue-600 flex-shrink-0 mt-1" />
+    )}
+  </div>
+);
+
 export const renderField = <T extends Record<string, unknown>>({
   field,
   form,
@@ -24,7 +56,7 @@ export const renderField = <T extends Record<string, unknown>>({
     options,
     clearable,
     maxtagcount,
-    disabled
+    disabled,
   } = field;
 
   // Convert name to string since Mantine expects string keys
@@ -135,7 +167,6 @@ export const renderField = <T extends Record<string, unknown>>({
           placeholder={field.placeholder}
           label={field.label}
           required={field.required}
-
         />
       );
     case "special-select":
@@ -151,39 +182,8 @@ export const renderField = <T extends Record<string, unknown>>({
           required={required}
           options={options || []}
           clearable={clearable || true}
-          renderSelected={(option) => (
-            <div className="flex items-center gap-2">
-              <div>
-                <div className="font-medium">{option.label}</div>
-                {/* <div className="text-xs text-gray-500">
-                  {option.description}
-                </div> */}
-              </div>
-            </div>
-          )}
-          renderOption={(option, isSelected) => (
-            <div className="flex items-start w-full gap-3">
-              <div className="flex-shrink-0 mt-1">{option.icon}</div>
-              <div className="flex-1 min-w-0">              
-                <p className="text-sm text-gray-600 mt-1">
-                  {option.description}
-                </p>
-                <div className="flex gap-3 mt-2 text-xs text-gray-500">
-                  <div>
-                    <span className="font-medium">Team:</span>{" "}
-                    {option.meta?.team}
-                  </div>
-                  <div>
-                    <span className="font-medium">Progress:</span>{" "}
-                    {option.meta?.progress}
-                  </div>
-                </div>
-              </div>
-              {isSelected && (
-                <Check className="h-5 w-5 text-blue-600 flex-shrink-0 mt-1" />
-              )}
-            </div>
-          )}
+          renderSelected={renderSelected}
+          renderOption={renderOption}
         />
       );
     default:
