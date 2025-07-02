@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite --host --port 3000 --mode development",
     "build:dev": "vite build --mode development",
+    "qa": "vite --host --port 8000 --mode qa",
+    "build:qa": "vite build --mode qa",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -25,7 +27,8 @@
     "react-hot-toast": "^2.5.2",
     "react-router-dom": "^7.5.3",
     "react-toastify": "^11.0.5",
-    "tailwind-merge": "^3.2.0"
+    "tailwind-merge": "^3.2.0",
+    "zustand": "^5.0.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

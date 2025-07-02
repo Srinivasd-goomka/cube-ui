@@ -25,7 +25,7 @@ export function commonProductMetadata() {
       type: "section",
       label: "Service Information",
       name: "Service Information",
-      required: true,
+      isField: false,
       validation: {},
       options: {},
       width: 12,

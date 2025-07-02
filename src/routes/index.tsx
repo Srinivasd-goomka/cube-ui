@@ -8,11 +8,15 @@ const UserLogin = lazy(() => import("../pages/auth/login"));
 const HomePage = lazy(() => import("../pages/home"));
 
 // Lazy load the SitesPage component
-const SitesPage = lazy(() => import("../pages/sites"));
+const SiteListPage = lazy(() => import("../pages/sites"));
+const SiteDetailsPage = lazy(() => import("../pages/sites/site-details"));
+
+// Lazy load the ProductInfoPage component
+import ProductInfoPage from "../pages/product-info";
 
 export const nonAuthRoutes: RouteObject[] = [
   {
-    path: "/",
+    path: "/login",
     // path: "/login",
     element: <UserLogin />,
     index: true,
@@ -51,7 +55,27 @@ export const authRoutes: RouteObject[] = [
     children: [
       {
         index: true,
-        element: <SitesPage />,
+        element: <SiteListPage />,
+      },
+    ],
+  },
+  {
+    path: "/sites/site/:siteId",
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: <SiteDetailsPage />,
+      },
+    ],
+  },
+  {
+    path: "/sites/site/product/:siteId",
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: <ProductInfoPage />,
       },
     ],
   },

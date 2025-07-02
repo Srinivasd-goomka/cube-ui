@@ -27,11 +27,14 @@ export function CubeSelect({
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Filter options based on search term when searchable
-  const filteredOptions = searchable
-    ? options.filter((option) =>
-        option.label.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    : options;
+  const filteredOptions =
+    searchable && Array.isArray(options)
+      ? options.filter((option) =>
+          option?.label
+            ?.toLowerCase?.()
+            .includes(searchTerm?.toLowerCase?.() || "")
+        )
+      : options || [];
 
   // Sync with form value
   useEffect(() => {
@@ -90,9 +93,10 @@ export function CubeSelect({
     setIsOpen(false);
   };
 
-  const getSelectedLabel = () => {
+  const getSelectedLabel = (): string => {
+    if (!Array.isArray(options) || !selected) return "";
     const selectedOption = options.find((option) => option.value === selected);
-    return selectedOption ? selectedOption.label : "";
+    return selectedOption?.label || "";
   };
 
   // Toggle dropdown open/closed
@@ -102,7 +106,7 @@ export function CubeSelect({
   };
 
   return (
-    <div className="mb-4" ref={wrapperRef} style={{ maxWidth }}>
+    <div ref={wrapperRef} style={{ maxWidth }}>
       {label && (
         <label
           htmlFor={name}

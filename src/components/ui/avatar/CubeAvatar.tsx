@@ -52,7 +52,7 @@ export function CubeAvatar({
             className="rounded-full object-cover w-full h-full"
           />
         ) : (
-          <span className="font-bold text-gray-600">{initials}</span>
+          <span className="font-bold text-slategray">{initials}</span>
         )}
       </div>
 

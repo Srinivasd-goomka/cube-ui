@@ -115,7 +115,7 @@ type HomePageFormValues = {
       width: 2,
       options: [
         { value: "Connectiv", label: "Connectiv" },
-        { value: "Google", label: "Google" },
+        { value: "Google111", label: "Google" },
         { value: "Mint", label: "Mint" },
         { value: "NDS", label: "NDS" },
         {
@@ -163,7 +163,7 @@ type HomePageFormValues = {
       height: 300,
     },
     {
-      type: "special-select",
+      type: "specialSelect",
       name: "cars",
       label: "Specilal Select",
       required: true,

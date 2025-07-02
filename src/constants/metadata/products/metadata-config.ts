@@ -94,9 +94,9 @@ export const productConfig = (productId: number) => {
     //   };
     //   break;
     // case 3:
-    //   metaDataFields = otherServices();
-    //   defaultBaseValues = { category: "Other" };
-    //   defaultCategoryOverrides = {
+    //   metaData = greaseTrap();
+    //   initialData = { removal_requested_by: userName, category: "Other" };
+    //   categoryOverRides = {
     //     Other: {
     //       quantity: "1",
     //     },

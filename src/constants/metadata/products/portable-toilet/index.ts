@@ -34,7 +34,7 @@ export function ptProductMetadataFields() {
       width: 6,
     },
     {
-      type: "ptselect",
+      type: "specialSelect",
       label: "Product Type",
       name: "product_type",
       required: true,
@@ -47,7 +47,7 @@ export function ptProductMetadataFields() {
       label: "Gallons for holding tanks",
       name: "gallons_for_holding_tanks",
       validation: {},
-      width: 3,
+      width: 6,
     },
     {
       type: "multiselect",
@@ -55,14 +55,15 @@ export function ptProductMetadataFields() {
       name: "accessories",
       validation: {},
       options: accessoriesList(),
-      width: 5,
+      width: 6,
+      maxtagcount: 1,
     },
     {
       type: "checkbox",
       label: "Winter Service Charge",
       name: "winter_service_charge",
       validation: {},
-      marginTop: 2.3,
+      marginTop: 2,
       width: 4,
     },
     {
@@ -149,14 +150,14 @@ export function ptProductMetadataFields() {
       name: "service_days",
       validation: {},
       options: serviceDaysList(),
-      width: 6,
+      width: 4,
     },
     {
       type: "date",
       label: "Service Day(s) Verified on",
       name: "service_days_verified_on",
       validation: {},
-      width: 6,
+      width: 4,
     },
     {
       type: "select",
@@ -195,8 +196,8 @@ export function ptProductMetadataFields() {
       label: "Multiple Shifts",
       name: "multiple_shifts",
       validation: {},
-      marginTop: 0,
-      width: 6,
+      marginTop: 2,
+      width: 3,
     },
     {
       type: "notes",
@@ -207,6 +208,7 @@ export function ptProductMetadataFields() {
     },
     {
       type: "instructions",
+      isField: false,
       label: "",
       name: "",
       validation: {},

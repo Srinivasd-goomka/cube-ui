@@ -23,7 +23,7 @@ export function productList() {
     "Equipment Rentals",
     "Front Load",
     "Perm Roll-Off/Compactor",
-    "Other"
+    "Other",
   ];
   return productList;
 }
@@ -878,6 +878,37 @@ export function otherServiceCategoryList() {
   ];
   return data;
 }
+export function greaseTrapLocation() {
+  const data = [
+    { label: "Interior", value: "Interior" },
+    { label: "Exterior", value: "EXterior" },
+    
+  ];
+  return data;
+}
+
+export function greaseTrapSize() {
+  const data = [
+    { label: "25", value: "25" },
+    { label: "50", value: "50" },
+    { label: "100", value: "100" },
+    { label: "200", value: "200" },
+    { label: "250", value: "250" },
+    { label: "300", value: "300" },
+    { label: "400", value: "400" },
+    { label: "600", value: "500" },
+    { label: "700", value: "700" },
+    { label: "800", value: "800" },
+    { label: "900", value: "900" },
+    { label: "1000", value: "1000" },
+    { label: "1500", value: "1500" },
+    { label: "2000", value: "2000" },
+    { label: "2500", value: "2500" },
+    { label: "3000", value: "5000" },
+    { label: "5000", value: "5000" },
+  ];
+  return data;
+}
 
 export function equipRentalCycleList() {
   const data = [
@@ -1069,7 +1100,6 @@ export function inactivityFrequency() {
     { label: "30", value: "30" },
     // { label: "Other", value: "Other" },
     { label: "Add Other Choice", value: "add_other_choice" },
-
   ];
   return data;
 }

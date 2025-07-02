@@ -14,7 +14,7 @@ type MenuProps = {
   className?: string;
 };
 
-export function Menu({ items, children, className }: MenuProps) {
+export function CubeMenu({ items, children, className }: MenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
 

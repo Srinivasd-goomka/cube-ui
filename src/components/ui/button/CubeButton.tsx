@@ -18,7 +18,7 @@ interface Props {
   className?: string;
 }
 
-const Button = ({
+const CubeButton = ({
   children,
   variant = "primary",
   type = "button",
@@ -38,7 +38,6 @@ const Button = ({
   const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (disabled) return;
     const button = e.currentTarget;
-    console.log(button)
     // const rect = button.getBoundingClientRect();
     // const size = Math.max(rect.width, rect.height);
     // const x = e.clientX - rect.left - size / 2;
@@ -59,10 +58,10 @@ const Button = ({
   };
 
   const baseStyles =
-    "relative overflow-hidden flex items-center justify-center transition duration-300 ease-in-out font-medium";
+    "relative overflow-hidden flex items-center justify-center transition duration-300 ease-in-out font-medium h-10";
 
   const typeStyles = {
-    primary: "bg-blue-600 text-white hover:bg-blue-700",
+    primary: "bg-primaryBlue text-white hover:bg-blue-700",
     success: "bg-green-600 text-white hover:bg-green-700",
     info: "bg-cyan-600 text-white hover:bg-cyan-700",
     warning: "bg-yellow-500 text-white hover:bg-yellow-600",
@@ -113,4 +112,4 @@ const Button = ({
   );
 };
 
-export default Button;
+export default CubeButton;

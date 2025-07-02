@@ -93,8 +93,8 @@ const Header: React.FC = () => {
         <div>
           {isLoading && (
             <div className="w-[150px] flex justify-between">
-              {[1, 2].map((n) => (
-                <SidenavShimmer key={n} />
+              {Array.from({ length: 2 }, (_, i) => (
+                <SidenavShimmer key={i} />
               ))}
             </div>
           )}

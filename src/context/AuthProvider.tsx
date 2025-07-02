@@ -36,66 +36,66 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // TODO REMOVE THIS
-  const userData = {
-    status: "success",
-    code: 200,
-    data: {
-      id: 8714508,
-      employee_id: "78784",
-      first_name: "Tabitha",
-      last_name: "Walker",
-      email: "tabitha2024@zters.com",
-      email_verified_at: null,
-      mobile: null,
-      created_at: "2024-10-23T07:58:14.000000Z",
-      updated_at: "2025-06-30T02:50:00.000000Z",
-      created_by: 24018,
-      last_updated_by: 8714509,
-      ip_added: "183.82.112.15",
-      ip_modified: "183.82.112.15",
-      deleted_at: null,
-      last_login_datetime: "2025-06-30 02:50:00",
-      parent_user_id: 8714460,
-      css_user_id: null,
-      usermeta: {
-        id: 1002570,
-        user_id: 8714508,
-        title_id: 1,
-        business_phone: null,
-        business_ext: "1",
-        hired_date: "2024-10-23 00:00:00",
-        terminated_date: null,
-        status: 1,
-        created_at: "2024-10-23T07:58:14.000000Z",
-        updated_at: "2024-10-23T09:48:16.000000Z",
-        deleted_at: null,
-      },
-      user_roles: [
-        {
-          id: 604,
-          user_id: 8714508,
-          role_id: 1,
-          deleted_at: null,
-          created_at: null,
-          updated_at: null,
-          role: {
-            id: 1,
-            parent_id: 1,
-            name: "Administrator",
-            note: null,
-            status: 1,
-            created_at: null,
-            updated_at: null,
-            deleted_at: null,
-          },
-        },
-      ],
-    },
-    message: "user profile fetched successfully!",
-  };
-  setLocalStorage("user", JSON.stringify(userData.data));
-  setLocalStorage("accessToken", "*************");
-  setLocalStorage("isAuthenticated", "true");
+  // const userData = {
+  //   status: "success",
+  //   code: 200,
+  //   data: {
+  //     id: 8714508,
+  //     employee_id: "78784",
+  //     first_name: "Tabitha",
+  //     last_name: "Walker",
+  //     email: "tabitha2024@zters.com",
+  //     email_verified_at: null,
+  //     mobile: null,
+  //     created_at: "2024-10-23T07:58:14.000000Z",
+  //     updated_at: "2025-06-30T02:50:00.000000Z",
+  //     created_by: 24018,
+  //     last_updated_by: 8714509,
+  //     ip_added: "183.82.112.15",
+  //     ip_modified: "183.82.112.15",
+  //     deleted_at: null,
+  //     last_login_datetime: "2025-06-30 02:50:00",
+  //     parent_user_id: 8714460,
+  //     css_user_id: null,
+  //     usermeta: {
+  //       id: 1002570,
+  //       user_id: 8714508,
+  //       title_id: 1,
+  //       business_phone: null,
+  //       business_ext: "1",
+  //       hired_date: "2024-10-23 00:00:00",
+  //       terminated_date: null,
+  //       status: 1,
+  //       created_at: "2024-10-23T07:58:14.000000Z",
+  //       updated_at: "2024-10-23T09:48:16.000000Z",
+  //       deleted_at: null,
+  //     },
+  //     user_roles: [
+  //       {
+  //         id: 604,
+  //         user_id: 8714508,
+  //         role_id: 1,
+  //         deleted_at: null,
+  //         created_at: null,
+  //         updated_at: null,
+  //         role: {
+  //           id: 1,
+  //           parent_id: 1,
+  //           name: "Administrator",
+  //           note: null,
+  //           status: 1,
+  //           created_at: null,
+  //           updated_at: null,
+  //           deleted_at: null,
+  //         },
+  //       },
+  //     ],
+  //   },
+  //   message: "user profile fetched successfully!",
+  // };
+  // setLocalStorage("user", JSON.stringify(userData.data));
+  // setLocalStorage("accessToken", "*************");
+  // setLocalStorage("isAuthenticated", "true");
   //REMOVE THIS
   // Login
   const handleLogin = async (payload: Login) => {
@@ -115,7 +115,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
           setIsLoading(false);
           setIsAuthenticated(true);
           navigate("/");
-          setLocalStorage("user", JSON.stringify(data));
+          setLocalStorage("user", JSON.stringify(userResponse.data));
           toast.success("Login successful!");
         } else {
           setIsLoading(false);

@@ -24,7 +24,7 @@ const sizeClasses = {
   xl: 'max-w-2xl',
 };
 
-export function Modal({
+export function CubeModal({
   opened,
   onClose,
   title,

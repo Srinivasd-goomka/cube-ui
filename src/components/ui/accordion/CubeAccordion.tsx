@@ -17,7 +17,7 @@ type AccordionProps = {
   className?: string;
 };
 
-export function Accordion({
+export function CubeAccordion({
   items,
   multiple = false,
   defaultValue = [],

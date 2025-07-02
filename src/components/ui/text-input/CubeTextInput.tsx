@@ -46,7 +46,7 @@ export function CubeTextInput<T>({
           autoComplete={name as string}
           placeholder={placeholder}
           className={cn(
-            "w-full px-3 py-2 border rounded-md shadow-sm text-sm focus:outline-none focus:ring-1",
+            "w-full px-3 py-2.5 border rounded-md shadow-sm text-sm focus:outline-none focus:ring-1",
             value && "pr-8",
             {
               "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed":

@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import Footer from "../../footer";
 import { useAuthContext } from "../../../hooks/use-authContext";
 import { Login } from "../../../types";
-import Button from "../../../components/ui/button/Button";
+import CubeButton from "../../../components/ui/button/CubeButton";
 
 function UserLogin() {
   const { login, isLoading } = useAuthContext();
@@ -67,6 +67,7 @@ function UserLogin() {
                 <CubeTextInput
                   label="Email"
                   name="email"
+                  // @ts-expect-error form prop is not in CubeTextInput types but is required for mantine form integration
                   form={form}
                   withAsterisk
                 />
@@ -76,6 +77,7 @@ function UserLogin() {
                 <CubePasswordInput
                   label="Password"
                   name="password"
+                  // @ts-expect-error form prop is not in CubeTextInput types but is required for mantine form integration
                   form={form}
                   withAsterisk
                 />
@@ -100,7 +102,7 @@ function UserLogin() {
               >
                 {isLoading ? <ButtonLoader /> : <span>Sign In</span>}
               </button> */}
-              <Button
+              <CubeButton
                 type="submit"
                 variant="primary"
                 label="Sign In"

@@ -5,7 +5,7 @@ type TabPanelProps = {
     isActive?: boolean;
   };
   
-  export function TabPanel({ children, isActive }: TabPanelProps) {
+  export function CubeTabPanel({ children, isActive }: TabPanelProps) {
     if (!isActive) return null;
     return <div>{children}</div>;
   }

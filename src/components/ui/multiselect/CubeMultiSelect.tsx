@@ -166,7 +166,7 @@ export function CubeMultiSelect({
   };
 
   return (
-    <div className="mb-4" ref={wrapperRef} style={{ maxWidth }}>
+    <div ref={wrapperRef} style={{ maxWidth }}>
       {label && (
         <label
           htmlFor={name}
@@ -228,7 +228,7 @@ export function CubeMultiSelect({
           </div>
 
           {/* Clear button when value is selected and clearable */}
-          {clearable && selected && !isOpen && (
+          {clearable && selected.length > 0 && !isOpen && (
             <button
               type="button"
               onClick={handleClear}

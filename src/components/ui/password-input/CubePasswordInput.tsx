@@ -23,7 +23,7 @@ export function CubePasswordInput({
   const isInvalid = !!error;
 
   return (
-    <div className="mb-4">
+    <div>
       {label && (
         <label
           htmlFor={name}
@@ -43,7 +43,7 @@ export function CubePasswordInput({
           onBlur={onBlur}
           autoComplete={name}
           className={cn(
-            "w-full px-3 py-2 border rounded-md shadow-sm text-sm focus:outline-none focus:ring-1 focus:ring-blue-500",
+            "w-full px-3 py-2.5 border rounded-md shadow-sm text-sm focus:outline-none focus:ring-1 focus:ring-blue-500",
             isInvalid ? "border-red-500" : "border-gray-300"
           )}
           {...htmlAttributes}

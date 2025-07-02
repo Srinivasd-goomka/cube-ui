@@ -10,7 +10,6 @@ import {
   Package,
 } from "lucide-react";
 
-
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hooks/use-authContext";
 import SidenavItem from "./SidenavItem";
@@ -65,12 +64,11 @@ const Sidenav = ({
     { id: "settings", icon: Settings, title: "Settings" },
   ];
 
-
   const navigate = useNavigate();
   const goToPage = (link: string) => {
     setActiveItem(link);
     console.log(link);
-    navigate("/video");
+    navigate("/sites/site/703");
   };
 
   useEffect(() => {
@@ -87,8 +85,8 @@ const Sidenav = ({
         ${isSidenav ? "w-16" : "w-64"}
       `}
       >
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => (
-          <SidenavShimmer key={n} />
+        {Array.from({ length: 9 }, (_, i) => (
+          <SidenavShimmer key={i} />
         ))}
       </div>
     );
@@ -97,7 +95,9 @@ const Sidenav = ({
   return (
     <div
       className={`
-        h-screen bg-white border-r border-gray-200 transition-all duration-300 fixed z-20 ${isSidenav ? "w-16" : "w-64"}
+        h-screen bg-white border-r border-gray-200 transition-all duration-300 fixed z-20 ${
+          isSidenav ? "w-16" : "w-64"
+        }
       `}
     >
       <div className="flex flex-col h-full">

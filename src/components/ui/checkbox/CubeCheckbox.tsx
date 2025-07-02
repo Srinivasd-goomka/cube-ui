@@ -16,7 +16,7 @@ export function CubeCheckbox<T>({
   const isInvalid = !!error;
 
   return (
-    <div className="mb-4">
+    <div>
       <label className="flex items-center space-x-2 cursor-pointer">
         <input
           id={name}

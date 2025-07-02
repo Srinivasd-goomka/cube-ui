@@ -4,6 +4,7 @@ import { InputHTMLAttributes, SelectHTMLAttributes } from "react";
 export interface FieldOption {
   label: string;
   value: string | number;
+  product_type?: string;
 }
 
 export interface FieldConfig {
@@ -13,7 +14,7 @@ export interface FieldConfig {
   required?: boolean;
   validation?: { required?: string };
   options?: FieldOption[];
-  width?: number;
+  width?: number | undefined;
   placeholder?: string;
   prefix?: string;
   searchable?: boolean;
@@ -24,6 +25,8 @@ export interface FieldConfig {
   showCondition?: (formValues: Record<string, unknown>) => boolean;
   field?: unknown;
   form?: unknown;
+  marginTop?: string;
+  isField?: boolean;
 }
 
 export interface DynamicFormProps {
@@ -84,4 +87,8 @@ export type SelectProps = Omit<
 export interface RenderFieldProps<T> {
   field: FieldConfig;
   form: UseFormReturnType<T, (values: T) => T>;
+}
+
+export interface FormValues {
+  [key: string]: unknown;
 }

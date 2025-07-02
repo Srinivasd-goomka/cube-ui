@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { Check, ChevronDown, X } from "lucide-react";
 import { SelectProps } from "../../../types";
 import { cn } from "../../../lib/helpers";
@@ -28,11 +28,16 @@ export function CubeSpecialSelect({
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Filter options based on search term when searchable
-  const filteredOptions = searchable
-    ? options.filter((option) =>
-        option.label.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    : options;
+  const filteredOptions = useMemo(() => {
+    const term = (searchTerm || "").toLowerCase().trim();
+    if (!searchable || !Array.isArray(options)) return options || [];
+
+    return options.filter((option) => {
+      const label = option?.label?.toLowerCase() || "";
+      const category = option?.product_type?.toLowerCase() || "";
+      return label.includes(term) || category.includes(term);
+    });
+  }, [searchable, options, searchTerm]);
 
   // Sync with form value
   useEffect(() => {
@@ -91,8 +96,10 @@ export function CubeSpecialSelect({
     setIsOpen(false);
   };
 
-  const getSelectedOption = () => {
-    return options.find((option) => option.value === selected);
+  const getSelectedOption = (): string => {
+    if (!Array.isArray(options) || !selected) return "";
+    const selectedOption = options.find((option) => option.value === selected);
+    return selectedOption?.label || "";
   };
 
   // Toggle dropdown open/closed
@@ -102,7 +109,7 @@ export function CubeSpecialSelect({
   };
 
   return (
-    <div className="mb-4" ref={wrapperRef} style={{ maxWidth }}>
+    <div ref={wrapperRef} style={{ maxWidth }}>
       {label && (
         <label
           htmlFor={name}

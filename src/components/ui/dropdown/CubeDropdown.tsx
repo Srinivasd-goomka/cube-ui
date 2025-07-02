@@ -90,7 +90,7 @@ export function CubeDropdown({ text, items, className }: DropdownProps) {
                   <li
                     key={index}
                     onClick={onClick}
-                    className="px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer flex items-center space-x-2 border-b last:border-b-0"
+                    className="px-4 py-3 text-sm text-slategray hover:bg-gray-100 cursor-pointer flex items-center space-x-2 border-b last:border-b-0"
                   >
                     {icon && iconPosition === "left" && (
                       <span className="mr-2">{icon}</span>

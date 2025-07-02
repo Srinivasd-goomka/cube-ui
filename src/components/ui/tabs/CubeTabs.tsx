@@ -16,7 +16,7 @@ type TabsProps = {
   layout?: "horizontal" | "vertical" | "full-width";
 };
 
-export function Tabs({
+export function CubeTabs({
   tabs,
   value,
   onChange,
@@ -88,7 +88,7 @@ export function Tabs({
 
       <span
         className={cn(
-          "absolute bg-blue-600 transition-all duration-300",
+          "absolute bg-primaryBlue transition-all duration-300",
           isVertical ? "left-0 w-1 rounded-r" : "bottom-0 h-0.5 rounded-t"
         )}
         style={indicatorStyle}

@@ -7,7 +7,7 @@ type SkeletonProps = HTMLAttributes<HTMLDivElement> & {
   radius?: number | string;
 };
 
-export function Skeleton({
+export function CubeSkeleton({
   height = 16,
   width = '100%',
   radius = 4,
@@ -29,6 +29,3 @@ export function Skeleton({
     />
   );
 }
-
-{/* <Skeleton height={20} width={200} />
-<Skeleton height="2rem" radius="8px" /> */}

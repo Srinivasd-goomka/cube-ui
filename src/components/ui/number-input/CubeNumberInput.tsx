@@ -184,7 +184,7 @@ export function CubeNumberInput<T>({
             (prefix === "currency" ? "0.00" : prefix === "percent" ? "0" : "")
           }
           className={cn(
-            "w-full py-2 border rounded-md shadow-sm text-sm focus:outline-none focus:ring-1",
+            "w-full py-2.5 border rounded-md shadow-sm text-sm focus:outline-none focus:ring-1",
             prefix ? "pl-7" : "pl-3",
             disabled
               ? "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed"

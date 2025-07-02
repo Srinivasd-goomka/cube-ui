@@ -10,37 +10,77 @@ import { CubeJoditEditor } from "../../../components/ui/jodit-editor/CubeJoditEd
 import { CubeSpecialSelect } from "../../../components/ui/special-select/CubeSpecialSelect";
 import { Check } from "lucide-react";
 
-const renderSelected = (option: unknown) => (
-  <div className="flex items-center gap-2">
-    <div>
-      <div className="font-medium">{(option as { label: string }).label}</div>
-    </div>
+export const Instructions = () => (
+  <div
+    className="flex bg-[#fffddd] border border-[#c4b700] p-2 flex-col gap-2 rounded-md text-[12px] font-semibold"
+    role="alert"
+  >
+    <span>Please remember to quote your customer the winter service fee!</span>
+    <span>
+      Cold month: None <br />
+      Winter Service Fee: $N/A
+    </span>
+    <span>Recommended 1 Toilet for up to 20 employees</span>
   </div>
 );
 
-const renderOption = (option: unknown, isSelected: boolean) => (
-  <div className="flex items-center gap-3 w-full pl-3">
-    <div className="flex-1 min-w-0">
-      <div className="flex items-center">
-        <span className="font-medium">{(option as { label: string }).label}</span>
-      </div>
-      <p className="text-sm text-gray-600 mt-1">{(option as { description?: string }).description}</p>
+export const Section = (field: React.ReactNode) => (
+  <div className="flex flex-row gap-2 border-b border-[#afbaca] text-slategray font-semibold pb-2">
+    {field}
+  </div>
+);
 
-      {"meta" in (option as object) && (option as { meta?: Record<string, unknown> }).meta && (
-        <div className="flex gap-3 mt-2 text-xs text-gray-500">
-          {Object.entries((option as { meta: Record<string, unknown> }).meta).map(([key, value]) => (
-            <div key={key}>
-              <span className="font-medium">{key}:</span> {String(value)}
-            </div>
-          ))}
+const renderProductTypeSelected = (option: unknown) => {
+  return (
+    <div className="flex items-center gap-2">
+      <div>
+        <div className="font-medium">{String(option)}</div>
+      </div>
+    </div>
+  );
+};
+
+const renderProductTypeOption = (option: unknown, isSelected: boolean) => {
+  return (
+    <div className="flex items-center gap-3 w-full pl-3">
+      <div className="flex-1 min-w-0">
+        <div className="flex-row gap-4 grid grid-cols-1 md:grid-cols-12">
+          <div className="flex flex-col col-span-5">
+            <span className="uppercase text-[11px]">Abbreviation</span>
+            <span className="font-medium truncate">
+              {(option as { label: string }).label}
+            </span>
+          </div>
+          <div className="flex flex-col col-span-6">
+            <span className="uppercase text-[11px]">Product Type</span>
+            <span className="font-medium truncate">
+              {(option as { product_type: string }).product_type}
+            </span>
+          </div>
         </div>
+        {/* <p className="text-sm text-gray-600 mt-1">
+        {(option as { description?: string }).description}
+      </p> */}
+
+        {/* {"meta" in (option as object) &&
+        (option as { meta?: Record<string, unknown> }).meta && (
+          <div className="flex gap-3 mt-2 text-xs text-gray-500">
+            {Object.entries(
+              (option as { meta: Record<string, unknown> }).meta
+            ).map(([key, value]) => (
+              <div key={key}>
+                <span className="font-medium">{key}:</span> {String(value)}
+              </div>
+            ))}
+          </div>
+        )} */}
+      </div>
+      {isSelected && (
+        <Check className="h-5 w-5 text-blue-600 flex-shrink-0 mt-1" />
       )}
     </div>
-    {isSelected && (
-      <Check className="h-5 w-5 text-blue-600 flex-shrink-0 mt-1" />
-    )}
-  </div>
-);
+  );
+};
 
 export const renderField = <T extends Record<string, unknown>>({
   field,
@@ -169,7 +209,7 @@ export const renderField = <T extends Record<string, unknown>>({
           required={field.required}
         />
       );
-    case "special-select":
+    case "specialSelect":
       return (
         <CubeSpecialSelect
           key={fieldName}
@@ -182,10 +222,14 @@ export const renderField = <T extends Record<string, unknown>>({
           required={required}
           options={options || []}
           clearable={clearable || true}
-          renderSelected={renderSelected}
-          renderOption={renderOption}
+          renderSelected={renderProductTypeSelected}
+          renderOption={renderProductTypeOption}
         />
       );
+    case "instructions":
+      return <Instructions />;
+    case "section":
+      return Section(label);
     default:
       return null;
   }
