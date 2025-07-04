@@ -1,4 +1,11 @@
-import React, { useState, useRef, useEffect, KeyboardEvent } from "react";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  KeyboardEvent,
+  useCallback,
+  useLayoutEffect,
+} from "react";
 import dayjs from "dayjs";
 import { DateInputProps } from "../../../types";
 import { cn } from "../../../lib/helpers";
@@ -17,32 +24,39 @@ export function CubeDateInput<T>({
   const wrapperRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const pickerRef = useRef<HTMLDivElement>(null);
+  const [alignRight, setAlignRight] = useState(false);
 
   // Position state
   const [position, setPosition] = useState<"below" | "above">("below");
 
   // Handle date changes
-  const handleDateChange = (date: Date | null) => {
-    const formattedDate = date ? dayjs(date).format("MM/DD/YYYY") : "";
-    onChange(formattedDate);
-    // setInternalValue(formattedDate);
-    setShowPicker(false);
-  };
+  const handleDateChange = useCallback(
+    (date: Date | null) => {
+      const formattedDate = date ? dayjs(date).format("MM/DD/YYYY") : "";
+      onChange(formattedDate);
+      setShowPicker(false);
+    },
+    [onChange]
+  );
 
-  // Clear selected date
-  const handleClear = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    onChange("");
-    setShowPicker(false);
-  };
+  const handleClear = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      onChange("");
+      setShowPicker(false);
+    },
+    [onChange]
+  );
 
   // Close picker when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         wrapperRef.current &&
-        !wrapperRef.current.contains(event.target as Node)
+        !wrapperRef.current.contains(event.target as Node) &&
+        pickerRef.current &&
+        !pickerRef.current.contains(event.target as Node)
       ) {
         setShowPicker(false);
       }
@@ -53,22 +67,36 @@ export function CubeDateInput<T>({
   }, []);
 
   // Position picker below input with auto-positioning
-  useEffect(() => {
-    if (showPicker && inputRef.current && pickerRef.current) {
+  const calculatePosition = useCallback(() => {
+    if (inputRef.current && pickerRef.current) {
       const inputRect = inputRef.current.getBoundingClientRect();
+      const pickerHeight = pickerRef.current.offsetHeight || 300;
 
       // Calculate space below and above
       const spaceBelow = window.innerHeight - inputRect.bottom - 20;
       const spaceAbove = inputRect.top - 20;
-      const pickerHeight = 300; // Approximate height
 
       // Determine best position
       const shouldPositionAbove =
         spaceBelow < pickerHeight && spaceAbove > spaceBelow;
-
       setPosition(shouldPositionAbove ? "above" : "below");
     }
-  }, [showPicker]);
+  }, []);
+
+  // Position picker below input with auto-positioning
+  useEffect(() => {
+    if (showPicker) {
+      // Add delay to ensure picker has rendered
+      setTimeout(calculatePosition, 10);
+
+      const handleResize = () => {
+        calculatePosition();
+      };
+
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }
+  }, [showPicker, calculatePosition]);
 
   // Parse current value to Date object
   const currentDate =
@@ -129,6 +157,19 @@ export function CubeDateInput<T>({
       setShowPicker(false);
     }
   };
+
+  useLayoutEffect(() => {
+    if (showPicker && pickerRef.current) {
+      const rect = pickerRef.current.getBoundingClientRect();
+      const screenWidth = window.innerWidth;
+
+      if (rect.right > screenWidth) {
+        setAlignRight(true);
+      } else {
+        setAlignRight(false);
+      }
+    }
+  }, [showPicker]);
 
   return (
     <div className="relative" ref={wrapperRef}>
@@ -229,7 +270,8 @@ export function CubeDateInput<T>({
           ref={pickerRef}
           className={cn(
             "date-picker absolute z-30 bg-white border border-gray-300 rounded-md shadow-lg min-w-[280px]",
-            position === "above" ? "bottom-full mb-1" : "mt-1"
+            position === "above" ? "bottom-full" : "mt-1",
+            alignRight ? "right-0" : "ml-[-3rem]"
           )}
         >
           <DatePicker
@@ -341,8 +383,8 @@ const DatePicker = ({
   ];
 
   return (
-    <div className="p-4">
-      <div className="flex justify-between items-center mb-4">
+    <div className="p-2">
+      <div className="flex justify-between items-center mb-2">
         <button
           type="button"
           onClick={prevMonth}
@@ -386,7 +428,7 @@ const DatePicker = ({
         </button>
       </div>
 
-      <div className="grid grid-cols-7 gap-1 mb-2">
+      <div className="grid grid-cols-7 gap-1 mb-1">
         {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => (
           <div
             key={day}

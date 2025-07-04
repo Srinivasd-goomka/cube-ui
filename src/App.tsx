@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./App.css";
 import { authRoutes, nonAuthRoutes } from "./routes";
 import { AuthProvider } from "./context/AuthProvider";
-import { useAuthContext } from "./hooks/use-authContext";
+import { useAuthContext } from "./hooks";
 import { ToastContainer } from "react-toastify";
 import { useEffect } from "react";
 

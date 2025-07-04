@@ -5,7 +5,7 @@ import { CubeTextInput } from "../../../components/ui/text-input/CubeTextInput";
 import { CubePasswordInput } from "../../../components/ui/password-input/CubePasswordInput";
 import { Link } from "react-router-dom";
 import Footer from "../../footer";
-import { useAuthContext } from "../../../hooks/use-authContext";
+import { useAuthContext } from "../../../hooks";
 import { Login } from "../../../types";
 import CubeButton from "../../../components/ui/button/CubeButton";
 

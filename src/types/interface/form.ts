@@ -66,7 +66,7 @@ export type DateInputProps<T = unknown> = {
 
 export type SelectProps = Omit<
   SelectHTMLAttributes<HTMLSelectElement>,
-  "value" | "onChange"
+  "value" | "onChange" | "form"
 > & {
   label?: string;
   name: string;
@@ -82,6 +82,7 @@ export type SelectProps = Omit<
   disabled?: boolean;
   renderOption?: unknown;
   renderSelected?: unknown;
+  className?: string;
 };
 
 export interface RenderFieldProps<T> {

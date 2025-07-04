@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import cubeLogoImage from "../../assets/logos/cube-logo.png";
-import { useAuthContext } from "../../hooks/use-authContext";
+import { useAuthContext } from "../../hooks";
 import IconMenu from "../../components/icons/IconMenu";
 import IconMenuOpen from "../../components/icons/IconMenuOpen";
 import SidenavShimmer from "../../components/sidenav/SidenavShimmer";
@@ -64,7 +64,7 @@ const Header: React.FC = () => {
   ];
 
   return (
-    <header className="fixed z-10 w-full bg-white shadow-sm px-2 py-1">
+    <header className="fixed z-50 w-full bg-white shadow-sm px-2 py-1">
       <div className="flex justify-between items-center">
         <div className="flex flex-row">
           <div

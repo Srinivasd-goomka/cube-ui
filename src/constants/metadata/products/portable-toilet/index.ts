@@ -196,7 +196,7 @@ export function ptProductMetadataFields() {
       label: "Multiple Shifts",
       name: "multiple_shifts",
       validation: {},
-      marginTop: 2,
+      marginTop: 0.5,
       width: 3,
     },
     {

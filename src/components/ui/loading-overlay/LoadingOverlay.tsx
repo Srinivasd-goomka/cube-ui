@@ -76,4 +76,4 @@ export const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
 // />
 
 // With blur & z-index:
-// <LoadingOverlay visible={true} blur={4} zIndex={2000} />
+// <LoadingOverlay visible={true} />

@@ -137,3 +137,96 @@ export function formatDate(dateTimeString: string | number | Date): string {
   };
   return `${date.toLocaleDateString("en-US", dateOptions)}`;
 }
+
+interface TicketCodeMap {
+  [key: string]: string;
+}
+
+export const getTicketCodeName = (codeName: string): string => {
+  const ticketCodeMap: TicketCodeMap = {
+    "monthly service": "RENTAL",
+    "monthly rental": "RENTAL",
+    "rental & service": "RENTAL",
+    haul: "RENTAL",
+    service: "SERVICE",
+    rental: "RENTAL",
+  };
+
+  return ticketCodeMap[codeName.toLowerCase()] || "Unknown";
+};
+
+export function formatPhoneNumber(phoneNumberString: string): string | null {
+  const cleaned: string = ("" + phoneNumberString).replace(/\D/g, "");
+  const match: RegExpMatchArray | null = cleaned.match(
+    /^(1|)?(\d{3})(\d{3})(\d{4})$/
+  );
+  if (match) {
+    const intlCode: string = match[1] ? "+1 " : "";
+    return [intlCode, "(", match[2], ") ", match[3], "-", match[4]].join("");
+  }
+  return null;
+}
+
+export function flattenData(
+  obj: Record<string, unknown>,
+  options: {
+    delimiter?: string;
+    maxDepth?: number;
+    preserveArrays?: boolean;
+    transformKey?: (key: string) => string;
+  } = {}
+): Record<string, unknown> {
+  const {
+    delimiter = "_",
+    maxDepth = 10,
+    preserveArrays = true,
+    transformKey = (key) => key,
+  } = options;
+
+  const result: Record<string, unknown> = {};
+  const seen = new WeakSet();
+
+  function flatten(current: unknown, parentKey = "", depth = 0) {
+    if (depth > maxDepth) return;
+
+    // Handle circular references
+    if (typeof current === "object" && current !== null) {
+      if (seen.has(current)) return;
+      seen.add(current);
+    }
+
+    if (Array.isArray(current) && preserveArrays) {
+      // Preserve arrays as-is
+      result[transformKey(parentKey)] = current;
+      return;
+    }
+
+    if (typeof current === "object" && current !== null && !preserveArrays) {
+      // Process object properties
+      for (const key in current) {
+        if (Object.prototype.hasOwnProperty.call(current, key)) {
+          const newKey = parentKey ? `${parentKey}${delimiter}${key}` : key;
+
+          flatten(
+            (current as Record<string, unknown>)[key],
+            transformKey(newKey),
+            depth + 1
+          );
+        }
+      }
+    } else {
+      // Primitive values, arrays (when preserveArrays=false), or null
+      result[transformKey(parentKey)] = current;
+    }
+  }
+
+  flatten(obj);
+  return result;
+}
+
+export const PER_PAGE_OPTIONS = [
+  { value: "10", label: "10" },
+  { value: "25", label: "25" },
+  { value: "50", label: "50" },
+  { value: "100", label: "100" },
+];

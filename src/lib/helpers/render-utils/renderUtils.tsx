@@ -154,7 +154,6 @@ export const renderField = <T extends Record<string, unknown>>({
           key={fieldName}
           label={label}
           name={fieldName}
-          // @ts-expect-error: form type may not match CubeNumberInput expected type, but is compatible in usage
           form={form as UseFormReturnType<Record<string, unknown>>}
           withAsterisk={required}
           placeholder={placeholder}
@@ -170,7 +169,6 @@ export const renderField = <T extends Record<string, unknown>>({
           key={fieldName}
           label={label}
           name={fieldName}
-          // @ts-expect-error: form type may not match CubeNumberInput expected type, but is compatible in usage
           form={form as UseFormReturnType<Record<string, unknown>>}
           withAsterisk={required}
           placeholder={placeholder}
@@ -215,7 +213,6 @@ export const renderField = <T extends Record<string, unknown>>({
           key={fieldName}
           label={label}
           name={fieldName}
-          // @ts-expect-error: form type may not match CubeNumberInput expected type, but is compatible in usage
           form={form as UseFormReturnType<Record<string, unknown>>}
           withAsterisk={required}
           placeholder={placeholder}

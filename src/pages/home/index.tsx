@@ -115,7 +115,7 @@ type HomePageFormValues = {
       width: 2,
       options: [
         { value: "Connectiv", label: "Connectiv" },
-        { value: "Google111", label: "Google" },
+        { value: "Google", label: "Google" },
         { value: "Mint", label: "Mint" },
         { value: "NDS", label: "NDS" },
         {

@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "../../../lib/helpers";
 import { ChevronDown } from "lucide-react";
 import { CubeAvatar } from "../avatar/CubeAvatar";
-import { useClickOutside } from "../../../hooks/use-click-outside";
+import { useClickOutside } from "../../../hooks";
 
 type DropdownItem = {
   label: string;

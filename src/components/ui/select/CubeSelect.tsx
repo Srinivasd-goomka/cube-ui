@@ -15,6 +15,7 @@ export function CubeSelect({
   clearable = true,
   maxWidth = "100%",
   disabled = false,
+  className,
 }: SelectProps) {
   const { value, onChange, onBlur } = form.getInputProps(name);
   const error = form.errors[name];
@@ -95,7 +96,9 @@ export function CubeSelect({
 
   const getSelectedLabel = (): string => {
     if (!Array.isArray(options) || !selected) return "";
-    const selectedOption = options.find((option) => option.value === selected);
+    const selectedOption = options.find(
+      (option) => String(option.value) === String(selected)
+    );
     return selectedOption?.label || "";
   };
 
@@ -131,7 +134,8 @@ export function CubeSelect({
               "bg-gray-100 text-gray-400 cursor-not-allowed": disabled,
               "bg-white focus-within:ring-1 focus-within:ring-blue-500":
                 !disabled,
-            }
+            },
+            className
           )}
           onClick={() => {
             if (disabled) return;

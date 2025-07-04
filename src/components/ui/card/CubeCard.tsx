@@ -6,10 +6,16 @@ interface CubeCardProps {
   children?: React.ReactNode;
 }
 
-const CubeCard: React.FC<CubeCardProps> = ({ title = "Card", className, children }) => {
+const CubeCard: React.FC<CubeCardProps> = ({
+  title = "",
+  className,
+  children,
+}) => {
   return (
-    <div className={`p-4 rounded-md border shadow bg-white ${className}`}>
-      <h1 className="text-md font-bold mb-4 text-slategray">{title}</h1>
+    <div className={`rounded-md border shadow bg-white ${className}`}>
+      {title && (
+        <h1 className="text-md font-bold mb-4 text-slategray">{title}</h1>
+      )}
       <div>{children}</div>
     </div>
   );

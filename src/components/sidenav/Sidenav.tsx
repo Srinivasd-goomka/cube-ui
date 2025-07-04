@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 
 import { useNavigate } from "react-router-dom";
-import { useAuthContext } from "../../hooks/use-authContext";
+import { useAuthContext } from "../../hooks";
 import SidenavItem from "./SidenavItem";
 import SidenavShimmer from "./SidenavShimmer";
 
@@ -68,7 +68,7 @@ const Sidenav = ({
   const goToPage = (link: string) => {
     setActiveItem(link);
     console.log(link);
-    navigate("/sites/site/703");
+    navigate("/sites");
   };
 
   useEffect(() => {
@@ -95,7 +95,7 @@ const Sidenav = ({
   return (
     <div
       className={`
-        h-screen bg-white border-r border-gray-200 transition-all duration-300 fixed z-20 ${
+        h-screen bg-white border-r border-gray-200 transition-all duration-300 fixed z-40 ${
           isSidenav ? "w-16" : "w-64"
         }
       `}

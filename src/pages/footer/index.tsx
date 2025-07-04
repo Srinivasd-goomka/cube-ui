@@ -6,7 +6,7 @@ const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="flex justify-between border-0 border-t border-[#94a2bc80] z-30 bg-white fixed w-full bottom-0 left-0 right-0">
+    <footer className="flex justify-between border-0 border-t border-[#94a2bc80] z-50 bg-white fixed w-full bottom-0 left-0 right-0">
       <div className="flex items-end p-2 gap-1">
         <img src={ztersLogoImage} alt="zters" width={32} height={35} />
         <span className="text-[12px] text-[#6c757d]">© {currentYear} ZTERS Inc. All Rights Reserved.</span>
